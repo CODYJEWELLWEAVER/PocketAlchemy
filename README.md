@@ -1,6 +1,6 @@
 # PocketAlchemy
 ### *WORK IN PROGRESS*
-#### *version: 1.0 Pre-release*
+#### *version: 1.0-alpha*
 ---
 
   Built with the home cook in mind. PocketAlchemy is a recipe book application for Android built with Kotlin and AndroidStudio. 

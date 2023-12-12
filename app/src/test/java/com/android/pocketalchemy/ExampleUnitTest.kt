@@ -1,4 +1,4 @@
-package com.example.pocketalchemy
+package com.android.pocketalchemy
 
 import org.junit.Test
 

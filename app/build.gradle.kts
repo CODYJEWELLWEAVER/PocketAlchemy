@@ -8,15 +8,15 @@ kotlin {
 }
 
 android {
-    namespace = "com.example.pocketalchemy"
+    namespace = "com.android.pocketalchemy"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.pocketalchemy"
+        applicationId = "com.android.pocketalchemy"
         minSdk = 24
         targetSdk = 34
         versionCode = 1
-        versionName = "1.0"
+        versionName = "1.0-alpha"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         vectorDrawables {

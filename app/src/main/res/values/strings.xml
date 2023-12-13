@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">PocketAlchemy</string>
+
+    // Button Labels
+    <string name="new_recipe_fab_label">New Recipe</string>
+
+
+    // Content Descriptions
+    <string name="create_icon_description">Create New Recipe</string>
 </resources>

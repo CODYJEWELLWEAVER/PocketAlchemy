@@ -5,6 +5,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.material3.darkColorScheme
 import androidx.compose.runtime.Composable
+import com.google.accompanist.systemuicontroller.rememberSystemUiController
 
 
 private val lightColors = lightColorScheme(
@@ -82,14 +83,19 @@ fun PocketAlchemyTheme(
   useDarkTheme: Boolean = isSystemInDarkTheme(),
   content: @Composable () -> Unit
 ) {
-  val colors = if (!useDarkTheme) {
-    lightColors
-  } else {
-    darkColors
-  }
+    val systemUiController = rememberSystemUiController()
 
-  MaterialTheme(
-    colorScheme = colors,
-    content = content
-  )
+    val colors = if (!useDarkTheme) {
+        lightColors
+    } else {
+        darkColors
+    }
+
+    // Set system bars color.
+    systemUiController.setSystemBarsColor(colors.primaryContainer)
+
+    MaterialTheme(
+        colorScheme = colors,
+        content = content
+    )
 }

@@ -1,4 +1,4 @@
-package com.android.pocketalchemy.dagger
+package com.android.pocketalchemy.di
 
 import dagger.Component
 

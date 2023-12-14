@@ -9,7 +9,7 @@ import com.android.pocketalchemy.model.Recipe
 
 @Composable
 fun RecipeList() {
-    val recipeList: MutableList<Recipe> = mutableListOf()
+    val recipeList = mutableListOf<Recipe>()
     for (i in 0..<100) {
         recipeList.add(Recipe("$i"))
     }
@@ -17,7 +17,6 @@ fun RecipeList() {
     LazyColumn(
         modifier = Modifier.fillMaxHeight(1f)
     ) {
-
 
         recipeList.forEach {
             item { Text(text = it.name) }

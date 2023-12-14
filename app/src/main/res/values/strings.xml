@@ -1,10 +1,17 @@
 <resources>
     <string name="app_name">PocketAlchemy</string>
 
-    // Button Labels
+    // Button Labels.
     <string name="new_recipe_fab_label">New Recipe</string>
 
+    // Navigation bar labels.
+    <string name="recipe_list_nav_label">Recipe List</string>
+    <string name="ingredient_lists_nav_label">Ingredient Lists</string>
+    <string name="nutrition_nav_label">Nutrition</string>
 
-    // Content Descriptions
-    <string name="create_icon_description">Create New Recipe</string>
+    // Content descriptions for icons.
+    <string name="create_description">Image of pencil.</string>
+    <string name="bulleted_list_description">Image of list.</string>
+    <string name="shopping_cart_description">Image of shopping cart.</string>
+    <string name="balance_description">Image of a weight balance.</string>
 </resources>

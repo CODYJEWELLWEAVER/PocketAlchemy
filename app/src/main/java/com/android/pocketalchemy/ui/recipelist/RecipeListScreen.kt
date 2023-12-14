@@ -1,6 +1,5 @@
 package com.android.pocketalchemy.ui.recipelist
 
-import androidx.annotation.StringRes
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExtendedFloatingActionButton
@@ -21,8 +20,8 @@ import com.android.pocketalchemy.ui.common.PaTopAppBar
 @Composable
 fun RecipeListScreen() {
     Scaffold(
-        contentColor = MaterialTheme.colorScheme.onBackground,
-        containerColor = MaterialTheme.colorScheme.background,
+        //contentColor = MaterialTheme.colorScheme.onBackground,
+        //containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             PaTopAppBar()
         },
@@ -50,6 +49,8 @@ private fun NewRecipeFAB(
     onClick: () -> Unit
 ) {
     ExtendedFloatingActionButton(
+        containerColor = MaterialTheme.colorScheme.primaryContainer,
+        contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
         text = {
             Text(
                 stringResource(id = R.string.new_recipe_fab_label)
@@ -57,8 +58,8 @@ private fun NewRecipeFAB(
         },
         icon = {
             Icon(
-                painter = painterResource(id = R.drawable.create_icon),
-                contentDescription = stringResource(id = R.string.create_icon_description),
+                painter = painterResource(id = R.drawable.create),
+                contentDescription = stringResource(id = R.string.create_description),
             )
         },
         onClick = { onClick() }

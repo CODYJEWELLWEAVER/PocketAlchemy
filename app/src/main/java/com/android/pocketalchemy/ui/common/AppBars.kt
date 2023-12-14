@@ -15,7 +15,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import com.android.pocketalchemy.R
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -35,13 +34,17 @@ fun PaTopAppBar() {
     )
 }
 
-@Preview
 @Composable
 fun PaNavBar() {
     NavigationBar(
         containerColor = MaterialTheme.colorScheme.primaryContainer,
         contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
     ) {
+        val navigationBarItemColors = NavigationBarItemDefaults.colors(
+            selectedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            selectedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
+            indicatorColor = MaterialTheme.colorScheme.primaryContainer,
+        )
         // RECIPE LIST NAV ITEM
         NavigationBarItem(
             selected = true,
@@ -58,11 +61,7 @@ fun PaNavBar() {
                     )
                 }
             },
-            colors = NavigationBarItemDefaults.colors(
-                selectedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                selectedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                indicatorColor = MaterialTheme.colorScheme.primaryContainer,
-            )
+            colors = navigationBarItemColors,
         )
         // INGREDIENT LISTS NAV ITEM
         NavigationBarItem(
@@ -80,11 +79,7 @@ fun PaNavBar() {
                     )
                 }
             },
-            colors = NavigationBarItemDefaults.colors(
-                selectedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                selectedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                indicatorColor = MaterialTheme.colorScheme.primaryContainer,
-            )
+            colors = navigationBarItemColors,
         )
         // NUTRITION NAV ITEM
         NavigationBarItem(
@@ -102,11 +97,7 @@ fun PaNavBar() {
                     )
                 }
             },
-            colors = NavigationBarItemDefaults.colors(
-                selectedIconColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                selectedTextColor = MaterialTheme.colorScheme.onPrimaryContainer,
-                indicatorColor = MaterialTheme.colorScheme.primaryContainer,
-            )
+            colors = navigationBarItemColors,
         )
     }
 }

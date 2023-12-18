@@ -1,4 +1,4 @@
-package com.android.pocketalchemy.ui.recipelist
+package com.android.pocketalchemy.recipelist
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.padding

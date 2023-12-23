@@ -1,7 +1,7 @@
 package com.android.pocketalchemy.firebase
 
 import android.util.Log
-import com.android.pocketalchemy.Config
+import com.android.pocketalchemy.BuildConfig
 import com.google.firebase.Firebase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.firestore
@@ -21,7 +21,7 @@ object FirestoreProvider {
     fun provideFirestore(): FirebaseFirestore {
         val firebaseFirestore = Firebase.firestore
 
-        if (Config.DEBUG) {
+        if (BuildConfig.DEBUG) {
             Log.d(TAG, "Connecting to emulator...")
             firebaseFirestore.useEmulator(EMULATOR_HOST, FIRESTORE_EMULATOR_PORT)
         }

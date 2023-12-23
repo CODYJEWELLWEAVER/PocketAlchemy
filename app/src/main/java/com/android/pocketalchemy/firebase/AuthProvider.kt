@@ -1,6 +1,7 @@
 package com.android.pocketalchemy.firebase
 
 import android.util.Log
+import com.android.pocketalchemy.BuildConfig
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
@@ -20,7 +21,7 @@ object AuthProvider {
     fun provideFirebaseAuth(): FirebaseAuth {
         val firebaseAuth = Firebase.auth
 
-        if (/*Config.DEBUG*/false) {
+        if (BuildConfig.DEBUG) {
             // Use emulator for debug
             Log.d(TAG, "Connecting to emulator...")
             firebaseAuth.useEmulator(EMULATOR_HOST, AUTH_EMULATOR_PORT)

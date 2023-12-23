@@ -128,22 +128,20 @@ fun RecipeListCard(
                     for (i in 0..<MAX_INGREDIENT_LINES) {
                         if (i < recipe.ingredients.size) {
                             val ingredient = recipe.ingredients[i]
-                            if (i != MAX_INGREDIENT_LINES - 1) {
-                                Text(
-                                    text = "${ingredient.title}",
-                                    modifier = Modifier.align(Alignment.CenterHorizontally),
-                                )
+                            val ingredientText: String = if (i != MAX_INGREDIENT_LINES - 1) {
+                                ingredient.name
+                            } else {
+                                "${ingredient.name}..."
                             }
-                            else {
-                                Text(
-                                    text = "${ingredient.title}...",
-                                    modifier = Modifier.align(Alignment.CenterHorizontally),
-                                )
-                            }
+                            Text(
+                                text = ingredientText,
+                                modifier = Modifier.align(Alignment.CenterHorizontally),
+                            )
                         }
                     }
                 }
                 Box(
+                    // This box is used to draw outline around recipe description.
                     modifier = Modifier
                         .border(
                             BorderStroke(1.dp, MaterialTheme.colorScheme.onBackground),

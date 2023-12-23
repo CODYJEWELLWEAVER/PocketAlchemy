@@ -2,6 +2,6 @@ package com.android.pocketalchemy.ingredient
 
 /* PLACEHOLDER */
 data class Ingredient(
-    val title: String,
-    //TODO: ADD FIELDS
+    val name: String,
+    val ingredientId: Int = 0
 )

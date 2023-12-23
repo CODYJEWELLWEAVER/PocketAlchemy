@@ -3,6 +3,13 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
     id("com.google.dagger.hilt.android")
+    id("com.google.gms.google-services")
+}
+
+java {
+    toolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
+    }
 }
 
 android {
@@ -53,21 +60,26 @@ android {
 }
 
 dependencies {
+    val dagger_version = "2.49"
 
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.6.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.6.2")
-    implementation("androidx.activity:activity-compose:1.8.2")
     implementation(platform("androidx.compose:compose-bom:2023.10.01"))
+    implementation("androidx.activity:activity-compose:1.8.2")
     implementation("androidx.compose.ui:ui")
     implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.material3:material3")
-    implementation("com.google.dagger:dagger:2.49")
-    implementation("com.google.dagger:hilt-android:2.49")
+    implementation("com.google.dagger:dagger:$dagger_version")
+    implementation("com.google.dagger:hilt-android:$dagger_version")
     implementation("com.google.accompanist:accompanist-systemuicontroller:0.27.0")
-    ksp("com.google.dagger:dagger-compiler:2.49")
-    ksp("com.google.dagger:hilt-compiler:2.49")
+    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
+    implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-firestore")
+    implementation("com.google.firebase:firebase-auth")
+    ksp("com.google.dagger:dagger-compiler:$dagger_version")
+    ksp("com.google.dagger:hilt-compiler:$dagger_version")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

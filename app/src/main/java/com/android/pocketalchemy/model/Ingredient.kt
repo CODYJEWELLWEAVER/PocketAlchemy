@@ -1,4 +1,4 @@
-package com.android.pocketalchemy.ingredient
+package com.android.pocketalchemy.model
 
 /* PLACEHOLDER */
 data class Ingredient(

@@ -1,4 +1,4 @@
-package com.android.pocketalchemy.category
+package com.android.pocketalchemy.model
 
 data class Category(
     val title: String

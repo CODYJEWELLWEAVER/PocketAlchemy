@@ -25,7 +25,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.android.pocketalchemy.R
-import com.android.pocketalchemy.recipe.Recipe
+import com.android.pocketalchemy.model.Recipe
 
 // Max number of lines of text for recipe descriptions.
 private const val MAX_DETAIL_LINES = 7

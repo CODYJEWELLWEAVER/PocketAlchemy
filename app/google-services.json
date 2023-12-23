@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "678864922010",
+    "project_id": "pocketalchemy-c2355",
+    "storage_bucket": "pocketalchemy-c2355.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:678864922010:android:c92358ce9258368a144623",
+        "android_client_info": {
+          "package_name": "com.android.pocketalchemy"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDmyM-QdLe52I8-hjH8ICCb7S9Y7sjgBC0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

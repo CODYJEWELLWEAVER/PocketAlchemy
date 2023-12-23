@@ -1,10 +1,8 @@
-package com.android.pocketalchemy.recipe
+package com.android.pocketalchemy.model
 
 import androidx.annotation.DrawableRes
 import androidx.annotation.StringRes
 import com.android.pocketalchemy.R
-import com.android.pocketalchemy.category.Category
-import com.android.pocketalchemy.ingredient.Ingredient
 import java.time.LocalDateTime
 
 data class Recipe(

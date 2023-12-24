@@ -1,5 +1,7 @@
 package com.android.pocketalchemy.recipelist
 
+import androidx.annotation.DrawableRes
+import androidx.annotation.StringRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -60,12 +62,16 @@ fun RecipeListCard(
             Row (
                 modifier = Modifier.padding(8.dp)
             ) {
+                @DrawableRes
+                val recipeIcon: Int = recipe.icon ?: R.drawable.default_recipe_icon
+                @StringRes
+                val recipeIconDescription: Int = recipe.iconDesc ?: R.string.default_recipe_icon_description
                 //////////////////
                 // Recipe icon
                 //////////////////
                 Icon(
-                    painter = painterResource(recipe.icon),
-                    contentDescription = stringResource(recipe.iconDesc),
+                    painter = painterResource(recipeIcon),
+                    contentDescription = stringResource(recipeIconDescription),
                     modifier = Modifier.fillMaxWidth(.3f),
                 )
                 Column {
@@ -73,7 +79,7 @@ fun RecipeListCard(
                     // Recipe title
                     //////////////////
                     Text(
-                        text = recipe.title,
+                        text = recipe.title ?: "",
                         modifier = Modifier
                             .fillMaxWidth(1f)
                             .fillMaxHeight(.6f),
@@ -84,9 +90,9 @@ fun RecipeListCard(
                     //////////////////
                     // Recipe subtitle
                     //////////////////
-                    if (recipe.subtitle != "") {
+                    recipe.subtitle?.let {
                         Text(
-                            text = recipe.subtitle,
+                            text = it,
                             modifier = Modifier
                                 .fillMaxWidth(1f)
                                 .fillMaxHeight(.4f),
@@ -125,20 +131,6 @@ fun RecipeListCard(
                         modifier = Modifier.align(Alignment.CenterHorizontally),
                         fontWeight = FontWeight.Bold,
                     )
-                    for (i in 0..<MAX_INGREDIENT_LINES) {
-                        if (i < recipe.ingredients.size) {
-                            val ingredient = recipe.ingredients[i]
-                            val ingredientText: String = if (i != MAX_INGREDIENT_LINES - 1) {
-                                ingredient.name
-                            } else {
-                                "${ingredient.name}..."
-                            }
-                            Text(
-                                text = ingredientText,
-                                modifier = Modifier.align(Alignment.CenterHorizontally),
-                            )
-                        }
-                    }
                 }
                 Box(
                     // This box is used to draw outline around recipe description.

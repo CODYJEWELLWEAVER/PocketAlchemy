@@ -13,15 +13,16 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.pocketalchemy.R
 import com.android.pocketalchemy.ui.common.PaNavBar
 import com.android.pocketalchemy.ui.common.PaTopAppBar
 
+private const val MIN_HEIGHT_FOR_TOP_BAR: Int = 500
 @Preview
 @Composable
 fun RecipeListScreen(
-    recipeListViewModel: RecipeListViewModel = viewModel()
+    recipeListViewModel: RecipeListViewModel = hiltViewModel<RecipeListViewModel>()
 ) {
     val configuration = LocalConfiguration.current
 
@@ -29,7 +30,7 @@ fun RecipeListScreen(
         contentColor = MaterialTheme.colorScheme.onBackground,
         containerColor = MaterialTheme.colorScheme.background,
         topBar = {
-            if (configuration.screenHeightDp > 500) {
+            if (configuration.screenHeightDp >= MIN_HEIGHT_FOR_TOP_BAR) {
                 PaTopAppBar()
             }
         },

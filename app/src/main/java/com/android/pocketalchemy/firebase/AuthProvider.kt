@@ -9,9 +9,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
+import dagger.hilt.android.components.ViewModelComponent
 
 @Module
-@InstallIn(ActivityComponent::class)
+@InstallIn(ActivityComponent::class, ViewModelComponent::class)
 object AuthProvider {
     private const val EMULATOR_HOST = "10.0.2.2"
     private const val AUTH_EMULATOR_PORT = 9099

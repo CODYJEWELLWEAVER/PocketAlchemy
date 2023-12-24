@@ -12,7 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@android:style/Theme.DeviceDefault.NoActionBar"
-        tools:targetApi="34">
+        tools:targetApi="34"
+        android:usesCleartextTraffic="true"> <!-- WARNING: only for testing with anon auth emulator -->
         <activity
             android:name=".MainActivity"
             android:exported="true">

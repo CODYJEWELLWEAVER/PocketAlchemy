@@ -8,7 +8,7 @@
     <string name="new_recipe_fab_label">New Recipe</string>
 
     // Navigation bar labels.
-    <string name="recipe_list_nav_label">Recipe List</string>
+    <string name="recipe_list_nav_label">Recipes</string>
     <string name="ingredient_lists_nav_label">Ingredient Lists</string>
     <string name="nutrition_nav_label">Nutrition</string>
 

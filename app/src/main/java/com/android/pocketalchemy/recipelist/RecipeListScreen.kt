@@ -22,23 +22,19 @@ private const val MIN_HEIGHT_FOR_TOP_BAR: Int = 500
 @Preview
 @Composable
 fun RecipeListScreen(
-    recipeListViewModel: RecipeListViewModel = hiltViewModel<RecipeListViewModel>()
+    recipeListViewModel: RecipeListViewModel = hiltViewModel(),
+    onNavigateToNewRecipe: () -> Unit,
 ) {
-    val configuration = LocalConfiguration.current
-
     Scaffold(
         contentColor = MaterialTheme.colorScheme.onBackground,
         containerColor = MaterialTheme.colorScheme.background,
         topBar = {
-            if (configuration.screenHeightDp >= MIN_HEIGHT_FOR_TOP_BAR) {
-                PaTopAppBar()
-            }
+            PaTopAppBar(titleId = R.string.app_name)
         },
         floatingActionButton = {
             NewRecipeFAB(
-                onClick = {
-                    // TODO:
-                }
+                // Load screen for creating a new recipe
+                onClick = onNavigateToNewRecipe
             )
         },
         bottomBar = {
@@ -48,7 +44,7 @@ fun RecipeListScreen(
         Column(
             modifier = Modifier.padding(scaffoldPadding)
         ) {
-            RecipeList(recipeListViewModel)
+            RecipeList()
         }
     }
 }

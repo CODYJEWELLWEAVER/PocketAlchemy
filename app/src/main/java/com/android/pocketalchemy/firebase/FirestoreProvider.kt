@@ -8,17 +8,18 @@ import com.google.firebase.firestore.firestore
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
-import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
-@InstallIn(ActivityComponent::class, ViewModelComponent::class)
+@InstallIn(SingletonComponent::class)
 object FirestoreProvider {
     private const val EMULATOR_HOST = "10.0.2.2"
     private const val FIRESTORE_EMULATOR_PORT = 8080
     private const val TAG = "FirestoreProvider"
 
     @Provides
+    @Singleton
     fun provideFirestore(): FirebaseFirestore {
         val firebaseFirestore = Firebase.firestore
 

@@ -20,7 +20,7 @@ import com.android.pocketalchemy.model.Recipe
 fun RecipeList(
     recipeListViewModel: RecipeListViewModel = hiltViewModel<RecipeListViewModel>()
 ) {
-    val recipes: State<List<Recipe>> // Observes users recipes
+    val recipes: State<List<Recipe>>
         = recipeListViewModel.recipes.collectAsState(initial = emptyList())
     
     LazyColumn(

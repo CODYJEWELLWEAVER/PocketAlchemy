@@ -3,11 +3,13 @@ package com.android.pocketalchemy.model
 import androidx.annotation.DrawableRes
 import androidx.annotation.Keep
 import androidx.annotation.StringRes
+import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.IgnoreExtraProperties
 
 @IgnoreExtraProperties
 @Keep
 data class Recipe(
+    @DocumentId val recipeId: String,
     val userId: String? = null,
     val title: String? = null,
     val subtitle: String? = null,
@@ -20,5 +22,6 @@ data class Recipe(
 
     companion object {
         const val USER_ID_FIELD = "userId"
+        const val TITLE_FIELD = "title"
     }
 }

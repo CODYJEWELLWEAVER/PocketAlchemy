@@ -8,17 +8,18 @@ import com.google.firebase.auth.auth
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
-import dagger.hilt.android.components.ViewModelComponent
+import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
-@InstallIn(ActivityComponent::class, ViewModelComponent::class)
+@InstallIn(SingletonComponent::class)
 object AuthProvider {
     private const val EMULATOR_HOST = "10.0.2.2"
     private const val AUTH_EMULATOR_PORT = 9099
     private const val TAG = "AuthProvider"
 
     @Provides
+    @Singleton
     fun provideFirebaseAuth(): FirebaseAuth {
         val firebaseAuth = Firebase.auth
 

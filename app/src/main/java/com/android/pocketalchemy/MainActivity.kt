@@ -6,6 +6,7 @@ import androidx.activity.compose.setContent
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.android.pocketalchemy.editrecipe.EditRecipeScreen
 import com.android.pocketalchemy.firebase.AuthRepository
 import com.android.pocketalchemy.recipelist.RecipeListScreen
 import com.android.pocketalchemy.ui.theme.PocketAlchemyTheme
@@ -22,12 +23,20 @@ class MainActivity : ComponentActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             PocketAlchemyTheme {
                 val navController = rememberNavController()
 
                 NavHost(navController, startDestination = "RecipeListScreen") {
-                    composable("RecipeListScreen") { RecipeListScreen() }
+                    composable("RecipeListScreen") {
+                        RecipeListScreen(
+                            onNavigateToNewRecipe = {
+                                navController.navigate("CreateNewRecipe")
+                            }
+                        )
+                    }
+                    composable("CreateNewRecipe") { EditRecipeScreen() }
                 }
             }
         }

@@ -1,5 +1,6 @@
 package com.android.pocketalchemy.ui.common
 
+import androidx.annotation.StringRes
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -17,7 +18,9 @@ import com.android.pocketalchemy.R
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun PaTopAppBar() {
+fun PaTopAppBar(
+    @StringRes titleId: Int
+) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
             containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -26,7 +29,7 @@ fun PaTopAppBar() {
         ),
         title = {
             Text(
-                text = stringResource(id = R.string.app_name)
+                text = stringResource(id = titleId)
             )
         },
     )

@@ -9,11 +9,11 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RecipeListViewModel @Inject constructor(
-    val recipeRepository: RecipeRepository
+    private val recipeRepository: RecipeRepository
 ) : ViewModel() {
 
     val recipes: Flow<List<Recipe>>
-        get() = recipeRepository.getUserRecipes()
+        get() = recipeRepository.getUserRecipeList()
 }
 
 

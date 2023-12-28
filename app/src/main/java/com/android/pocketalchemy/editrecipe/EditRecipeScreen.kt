@@ -14,14 +14,13 @@ import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
-import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.pocketalchemy.R
 import com.android.pocketalchemy.model.Recipe
 import com.android.pocketalchemy.ui.common.PaNavBar
@@ -34,14 +33,13 @@ private const val TITLE_ROW_HEIGHT = 150
 
 @Composable
 fun EditRecipeScreen(
-    recipeDocumentId: String? = null,
-    editRecipeViewModel: EditRecipeViewModel = hiltViewModel()
+    editRecipeViewModel: EditRecipeViewModel
 ) {
-    val appBarTitle = if (recipeDocumentId == null) {
+    val appBarTitle = if (editRecipeViewModel.recipeId == null) {
         R.string.create_new_recipe_title
     } else { R.string.app_name }
 
-    var recipe = remember { mutableStateOf(editRecipeViewModel.getRecipeObject(recipeDocumentId)) }
+    var recipe: State<Recipe> = editRecipeViewModel.getRecipe().collectAsState()
 
     Scaffold(
         contentColor = MaterialTheme.colorScheme.onBackground,
@@ -64,7 +62,7 @@ fun EditRecipeScreen(
                 ////////////////////////////
                 Column(
                     modifier = Modifier
-                        .fillMaxWidth(.6f)
+                        .fillMaxWidth(.75f)
                         .height(TITLE_ROW_HEIGHT.dp)
                 ) {
                     // Title
@@ -72,7 +70,9 @@ fun EditRecipeScreen(
                         readOnly = false,
                         value = recipe.value.title ?: "",
                         onValueChange = {
-                            recipe.value =  recipe.value.copy(title = it)
+                            editRecipeViewModel.updateRecipe { oldRecipe ->
+                                oldRecipe.copy(title = it)
+                            }
                         },
                         label = {
                             Text(
@@ -80,7 +80,8 @@ fun EditRecipeScreen(
                                 style = MaterialTheme.typography.headlineLarge
                             )
                         },
-                        textStyle = MaterialTheme.typography.headlineLarge
+                        textStyle = MaterialTheme.typography.headlineMedium,
+                        maxLines = 1,
                     )
                     // Subtitle
                     OutlinedTextField(

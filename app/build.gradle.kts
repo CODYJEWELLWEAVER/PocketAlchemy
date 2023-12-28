@@ -93,6 +93,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
     ksp("com.google.dagger:dagger-compiler:$dagger_version")
     ksp("com.google.dagger:hilt-compiler:$dagger_version")
+    ksp("androidx.hilt:hilt-compiler:1.1.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

@@ -3,14 +3,17 @@ package com.android.pocketalchemy
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.android.pocketalchemy.editrecipe.EditRecipeScreen
+import com.android.pocketalchemy.editrecipe.EditRecipeViewModel
 import com.android.pocketalchemy.firebase.AuthRepository
 import com.android.pocketalchemy.recipelist.RecipeListScreen
 import com.android.pocketalchemy.ui.theme.PocketAlchemyTheme
 import dagger.hilt.android.AndroidEntryPoint
+import dagger.hilt.android.lifecycle.withCreationCallback
 import javax.inject.Inject
 
 private const val TAG = "MainActivity"
@@ -36,7 +39,18 @@ class MainActivity : ComponentActivity() {
                             }
                         )
                     }
-                    composable("CreateNewRecipe") { EditRecipeScreen() }
+                    composable("CreateNewRecipe") {
+                        val editRecipeViewModel by viewModels<EditRecipeViewModel>(
+                            extrasProducer = {
+                                defaultViewModelCreationExtras
+                                    .withCreationCallback<EditRecipeViewModel.EditRecipeViewModelFactory> { factory ->
+                                        factory.create(null)
+                                    }
+                            }
+                        )
+
+                        EditRecipeScreen(editRecipeViewModel = editRecipeViewModel)
+                    }
                 }
             }
         }

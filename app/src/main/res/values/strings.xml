@@ -2,13 +2,15 @@
     <string name="app_name">PocketAlchemy</string>
 
     // App bar titles.
-    <string name="create_new_recipe_title">Create New Recipe</string>
+    <string name="edit_recipe_title">Edit Recipe</string>
 
     // Edit recipe screen labels.
     <string name="recipe_title_label">Title</string>
     <string name="recipe_subtitle_label">Subtitle</string>
     <string name="save_recipe_button_label">Save Recipe</string>
     <string name="go_back_button_label">Go Back</string>
+    <string name="choose_icon_label">Choose Icon</string>
+    <string name="recipe_description_label">Description</string>
 
     // Recipe card resources.
     <string name="ingredient_list_label">Ingredients</string>

@@ -14,7 +14,6 @@ import com.android.pocketalchemy.firebase.AuthRepository
 import com.android.pocketalchemy.recipelist.RecipeListScreen
 import com.android.pocketalchemy.ui.theme.PocketAlchemyTheme
 import dagger.hilt.android.AndroidEntryPoint
-import dagger.hilt.android.lifecycle.withCreationCallback
 import javax.inject.Inject
 
 private const val TAG = "MainActivity"
@@ -37,18 +36,16 @@ class MainActivity : ComponentActivity() {
                         RecipeListScreen(
                             onNavigateToNewRecipe = {
                                 navController.navigate("CreateNewRecipe")
-                            }
+                            },
+                            onNavigateToEditRecipe = {}
                         )
                     }
                     composable("CreateNewRecipe") {
-                        val editRecipeViewModel by viewModels<EditRecipeViewModel>(
-                            extrasProducer = {
-                                defaultViewModelCreationExtras
-                                    .withCreationCallback<EditRecipeViewModel.EditRecipeViewModelFactory> { factory ->
-                                        factory.create(null)
-                                    }
-                            }
-                        )
+                        val editRecipeViewModel by viewModels<EditRecipeViewModel>()
+
+                        // Init view model with null id to create a new
+                        // document in collection
+                        editRecipeViewModel.setRecipeId(null)
 
                         EditRecipeScreen(
                             navController,

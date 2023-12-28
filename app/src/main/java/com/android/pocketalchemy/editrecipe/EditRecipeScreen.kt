@@ -33,15 +33,14 @@ private const val TAG = "EditRecipeScreen"
 
 // Title and Icon Row Height
 private const val TITLE_ROW_HEIGHT = 150
+private const val DESC_ROW_HEIGHT = 150
 
 @Composable
 fun EditRecipeScreen(
     navController: NavController,
     editRecipeViewModel: EditRecipeViewModel
 ) {
-    val appBarTitle = if (editRecipeViewModel.recipeId == null) {
-        R.string.create_new_recipe_title
-    } else { R.string.app_name }
+    val appBarTitle = R.string.edit_recipe_title
 
     val recipeState: State<Recipe> = editRecipeViewModel.getRecipe().collectAsState()
     val recipe = recipeState.value
@@ -74,6 +73,12 @@ fun EditRecipeScreen(
                     OutlinedTextField(
                         value = recipe.title ?: "",
                         onValueChange = {
+                            val title = if (it == "") {
+                                null
+                            } else {
+                                it
+                            }
+
                             editRecipeViewModel.updateRecipe { oldRecipe ->
                                 oldRecipe.copy(title = it)
                             }
@@ -91,8 +96,14 @@ fun EditRecipeScreen(
                     OutlinedTextField(
                         value = recipe.subtitle ?: "",
                         onValueChange = {
+                            val subtitle = if (it == "") {
+                                null
+                            } else {
+                                it
+                            }
+
                             editRecipeViewModel.updateRecipe { oldRecipe ->
-                                oldRecipe.copy(subtitle = it)
+                                oldRecipe.copy(subtitle = subtitle)
                             }
                         },
                         label = {
@@ -100,6 +111,7 @@ fun EditRecipeScreen(
                                 text = stringResource(id = R.string.recipe_subtitle_label),
                             )
                         },
+                        maxLines = 1,
                     )
                 }
 
@@ -111,7 +123,7 @@ fun EditRecipeScreen(
                 ) {
                     IconButton(
                         modifier = Modifier.fillMaxSize(1f),
-                        onClick = { /*TODO*/ }
+                        onClick = { /*TODO: ICON SELECTOR*/ }
                     ) {
                         Icon(
                             painter = recipe.getIcon(),
@@ -122,9 +134,33 @@ fun EditRecipeScreen(
             }
 
             Row( // Description
-
+                modifier = Modifier
+                    .height(DESC_ROW_HEIGHT.dp)
+                    .fillMaxWidth(1f)
+                    .padding(horizontal = 8.dp)
             ) {
-                // TODO:
+                OutlinedTextField(
+                    value = recipe.description ?: "",
+                    onValueChange = {
+                        val description = if (it == "") {
+                            null
+                        } else {
+                            it
+                        }
+
+                        editRecipeViewModel.updateRecipe { oldRecipe ->
+                            oldRecipe.copy(description = description)
+                        }
+                    },
+                    label = {
+                        Text(
+                            text = stringResource(id = R.string.recipe_description_label),
+                            style = MaterialTheme.typography.bodyLarge
+                        )
+                    },
+                    textStyle = MaterialTheme.typography.bodyLarge,
+                    modifier = Modifier.fillMaxSize(1f)
+                )
             }
 
             Row( // Ingredients
@@ -145,6 +181,7 @@ fun EditRecipeScreen(
                     Button(
                         onClick = {
                             editRecipeViewModel.saveRecipe()
+                            navController.popBackStack()
                         },
                         modifier = Modifier.fillMaxWidth(.5f),
                         elevation = ButtonDefaults.buttonElevation(8.dp)
@@ -158,7 +195,10 @@ fun EditRecipeScreen(
                     modifier = Modifier.padding(horizontal = 4.dp)
                 ) {
                     Button(
-                        onClick = { navController.popBackStack() },
+                        onClick = {
+                            editRecipeViewModel.clearRecipeId()
+                            navController.popBackStack()
+                        },
                         modifier = Modifier.fillMaxWidth(1f),
                         colors = ButtonDefaults.buttonColors(
                             containerColor = MaterialTheme.colorScheme.secondaryContainer,

@@ -10,14 +10,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.pocketalchemy.model.Recipe
 
 @Composable
-@Preview
 fun RecipeList(
+    onNavigateToEditRecipe: () -> Unit,
     recipeListViewModel: RecipeListViewModel = hiltViewModel<RecipeListViewModel>()
 ) {
     val recipes: State<List<Recipe>>
@@ -36,7 +35,7 @@ fun RecipeList(
                 Box(
                     modifier = Modifier.padding(vertical = 8.dp)
                 ) {
-                    RecipeListCard(recipe = it)  {}
+                    RecipeListCard(recipe = it, onClick = onNavigateToEditRecipe)
                 }
             }
         }

@@ -9,20 +9,17 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.pocketalchemy.R
 import com.android.pocketalchemy.ui.common.PaNavBar
 import com.android.pocketalchemy.ui.common.PaTopAppBar
 
-private const val MIN_HEIGHT_FOR_TOP_BAR: Int = 500
-@Preview
 @Composable
 fun RecipeListScreen(
     recipeListViewModel: RecipeListViewModel = hiltViewModel(),
+    onNavigateToEditRecipe: () -> Unit,
     onNavigateToNewRecipe: () -> Unit,
 ) {
     Scaffold(
@@ -44,7 +41,7 @@ fun RecipeListScreen(
         Column(
             modifier = Modifier.padding(scaffoldPadding)
         ) {
-            RecipeList()
+            RecipeList(onNavigateToEditRecipe)
         }
     }
 }

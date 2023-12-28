@@ -46,7 +46,7 @@ fun RecipeListCard(
     )
 
     Card(
-        onClick = onClick,
+        onClick = {  },
         enabled = true,
         elevation = cardElevation
     ) {

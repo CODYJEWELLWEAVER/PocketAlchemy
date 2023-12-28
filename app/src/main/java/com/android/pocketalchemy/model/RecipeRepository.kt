@@ -44,6 +44,7 @@ class RecipeRepository @Inject constructor(
      * Saves current recipe as document in recipe collection.
      */
     fun saveRecipe(recipe: Recipe) {
+        Log.d(TAG, "${recipe.recipeId}")
         recipe.recipeId?.let {
             firestore.collection(RECIPE_COLLECTION).document(it)
                 .set(recipe)

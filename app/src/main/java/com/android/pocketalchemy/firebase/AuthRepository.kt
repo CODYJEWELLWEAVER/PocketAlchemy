@@ -14,6 +14,14 @@ import javax.inject.Inject
 class AuthRepository @Inject constructor(
     private val auth: FirebaseAuth
 ) {
+
+    /**
+     * Returns a non-null user id string
+     */
+    fun getUserIdString(): String? {
+        return auth.currentUser?.uid
+    }
+
     // Returns current firebase user object
     // Only safe to use after calling isUserSignedIn()
     fun getUser(): FirebaseUser {

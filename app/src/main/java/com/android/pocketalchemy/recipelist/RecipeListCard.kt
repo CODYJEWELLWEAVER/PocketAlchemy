@@ -1,7 +1,5 @@
 package com.android.pocketalchemy.recipelist
 
-import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
@@ -20,7 +18,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -28,6 +25,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.android.pocketalchemy.R
 import com.android.pocketalchemy.model.Recipe
+import com.android.pocketalchemy.model.getIcon
+import com.android.pocketalchemy.model.getIconDesc
 
 // Max number of lines of text for recipe descriptions.
 private const val MAX_DETAIL_LINES = 7
@@ -62,16 +61,12 @@ fun RecipeListCard(
             Row (
                 modifier = Modifier.padding(8.dp)
             ) {
-                @DrawableRes
-                val recipeIcon: Int = recipe.icon ?: R.drawable.default_recipe_icon
-                @StringRes
-                val recipeIconDescription: Int = recipe.iconDesc ?: R.string.default_recipe_icon_description
                 //////////////////
                 // Recipe icon
                 //////////////////
                 Icon(
-                    painter = painterResource(recipeIcon),
-                    contentDescription = stringResource(recipeIconDescription),
+                    painter = recipe.getIcon(),
+                    contentDescription = recipe.getIconDesc(),
                     modifier = Modifier.fillMaxWidth(.3f),
                 )
                 Column {

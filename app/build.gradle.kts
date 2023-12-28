@@ -34,12 +34,13 @@ android {
             isMinifyEnabled = false
             isDebuggable = true
             isDefault = true
-            buildConfigField("Boolean", "DEBUG", "true")
+            buildConfigField("Boolean", "DEBUG", "false")
         }
 
         release {
             isMinifyEnabled = false
             isDebuggable = false
+            buildConfigField("Boolean", "DEBUG", "false")
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"

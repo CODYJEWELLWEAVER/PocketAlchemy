@@ -1,5 +1,6 @@
 package com.android.pocketalchemy.model
 
+import android.util.Log
 import com.android.pocketalchemy.firebase.AuthRepository
 import com.android.pocketalchemy.firebase.FirestoreCollections.RECIPE_COLLECTION
 import com.google.firebase.firestore.DocumentReference
@@ -39,8 +40,20 @@ class RecipeRepository @Inject constructor(
         }
     }
 
+    /**
+     * Saves current recipe as document in recipe collection.
+     */
     fun saveRecipe(recipe: Recipe) {
-        firestore.collection(RECIPE_COLLECTION).document(recipe.recipeId)
-            .set(recipe)
+        recipe.recipeId?.let {
+            firestore.collection(RECIPE_COLLECTION).document(it)
+                .set(recipe)
+                .addOnSuccessListener {
+                    Log.i(TAG, "Save recipe successful...")
+
+                }
+                .addOnFailureListener {
+                    Log.w(TAG, "Could not save recipe. Exception: $it")
+                }
+        }
     }
 }

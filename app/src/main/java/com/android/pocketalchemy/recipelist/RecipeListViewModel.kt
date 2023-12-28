@@ -9,7 +9,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RecipeListViewModel @Inject constructor(
-    private val recipeRepository: RecipeRepository
+    private val recipeRepository: RecipeRepository,
 ) : ViewModel() {
 
     val recipes: Flow<List<Recipe>>

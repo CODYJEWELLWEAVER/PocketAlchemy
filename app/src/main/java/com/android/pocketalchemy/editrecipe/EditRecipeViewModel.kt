@@ -2,6 +2,7 @@ package com.android.pocketalchemy.editrecipe
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.android.pocketalchemy.firebase.AuthRepository
 import com.android.pocketalchemy.model.Recipe
 import com.android.pocketalchemy.model.RecipeRepository
 import com.google.firebase.firestore.toObject
@@ -17,9 +18,12 @@ import kotlinx.coroutines.flow.update
 @HiltViewModel(assistedFactory = EditRecipeViewModel.EditRecipeViewModelFactory::class)
 class EditRecipeViewModel @AssistedInject constructor(
     @Assisted var recipeId: String?,
-    private val recipeRepository: RecipeRepository
+    private val recipeRepository: RecipeRepository,
+    private val authRepository: AuthRepository
 ) : ViewModel() {
     private var _recipe: MutableStateFlow<Recipe>
+    private val userId: String?
+        get() = authRepository.getUserIdString()
 
     init {
         val recipeDoc = recipeRepository.getRecipe(recipeId)
@@ -31,7 +35,8 @@ class EditRecipeViewModel @AssistedInject constructor(
 
         _recipe = MutableStateFlow(
             Recipe(
-                recipeId = recipeId.toString()
+                recipeId = recipeDoc.id,
+                userId = this.userId
             )
         )
 
@@ -39,7 +44,9 @@ class EditRecipeViewModel @AssistedInject constructor(
             .addOnSuccessListener { snapshot ->
                 Log.d(TAG, "Successfully retrieved recipe snapshot... ")
                 snapshot.toObject<Recipe>()?.let {
-                    _recipe.value = it
+                    if (it.userId == this.userId) {
+                        _recipe.value = it
+                    }
                 }
             }
             .addOnFailureListener {
@@ -55,6 +62,10 @@ class EditRecipeViewModel @AssistedInject constructor(
         _recipe.update { oldRecipe ->
             onUpdate(oldRecipe)
         }
+    }
+
+    fun saveRecipe() {
+        recipeRepository.saveRecipe(_recipe.value)
     }
 
     @AssistedFactory

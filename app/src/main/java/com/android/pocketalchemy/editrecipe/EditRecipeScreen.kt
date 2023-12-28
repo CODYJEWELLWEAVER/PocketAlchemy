@@ -1,5 +1,6 @@
 package com.android.pocketalchemy.editrecipe
 
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -7,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -17,12 +19,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.android.pocketalchemy.R
 import com.android.pocketalchemy.model.Recipe
+import com.android.pocketalchemy.model.getIcon
+import com.android.pocketalchemy.model.getIconDesc
 import com.android.pocketalchemy.ui.common.PaNavBar
 import com.android.pocketalchemy.ui.common.PaTopAppBar
 
@@ -33,13 +36,15 @@ private const val TITLE_ROW_HEIGHT = 150
 
 @Composable
 fun EditRecipeScreen(
+    navController: NavController,
     editRecipeViewModel: EditRecipeViewModel
 ) {
     val appBarTitle = if (editRecipeViewModel.recipeId == null) {
         R.string.create_new_recipe_title
     } else { R.string.app_name }
 
-    var recipe: State<Recipe> = editRecipeViewModel.getRecipe().collectAsState()
+    val recipeState: State<Recipe> = editRecipeViewModel.getRecipe().collectAsState()
+    val recipe = recipeState.value
 
     Scaffold(
         contentColor = MaterialTheme.colorScheme.onBackground,
@@ -67,8 +72,7 @@ fun EditRecipeScreen(
                 ) {
                     // Title
                     OutlinedTextField(
-                        readOnly = false,
-                        value = recipe.value.title ?: "",
+                        value = recipe.title ?: "",
                         onValueChange = {
                             editRecipeViewModel.updateRecipe { oldRecipe ->
                                 oldRecipe.copy(title = it)
@@ -85,8 +89,12 @@ fun EditRecipeScreen(
                     )
                     // Subtitle
                     OutlinedTextField(
-                        value = "",
-                        onValueChange = {},
+                        value = recipe.subtitle ?: "",
+                        onValueChange = {
+                            editRecipeViewModel.updateRecipe { oldRecipe ->
+                                oldRecipe.copy(subtitle = it)
+                            }
+                        },
                         label = {
                             Text(
                                 text = stringResource(id = R.string.recipe_subtitle_label),
@@ -106,8 +114,8 @@ fun EditRecipeScreen(
                         onClick = { /*TODO*/ }
                     ) {
                         Icon(
-                            painter = getRecipeIcon(recipe.value),
-                            contentDescription = getRecipeIconDesc(recipe.value)
+                            painter = recipe.getIcon(),
+                            contentDescription = recipe.getIconDesc()
                         )
                     }
                 }
@@ -127,28 +135,41 @@ fun EditRecipeScreen(
 
             ) { /* TODO: */ }
 
-            // Save recipe button
-            Button(onClick = {  }) {
-                Text(text = stringResource(id = R.string.save_recipe_button_label))
+            Row( // Cancel and Save buttons
+                modifier = Modifier.padding(4.dp)
+            ) {
+                // Save button
+                Box(
+                    modifier = Modifier.padding(horizontal = 4.dp)
+                ) {
+                    Button(
+                        onClick = {
+                            editRecipeViewModel.saveRecipe()
+                        },
+                        modifier = Modifier.fillMaxWidth(.5f),
+                        elevation = ButtonDefaults.buttonElevation(8.dp)
+                    ) {
+                        Text(text = stringResource(id = R.string.save_recipe_button_label))
+                    }
+                }
+
+                // Cancel "go back" button
+                Box(
+                    modifier = Modifier.padding(horizontal = 4.dp)
+                ) {
+                    Button(
+                        onClick = { navController.popBackStack() },
+                        modifier = Modifier.fillMaxWidth(1f),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.secondaryContainer,
+                            contentColor = MaterialTheme.colorScheme.onSecondaryContainer
+                        ),
+                        elevation = ButtonDefaults.buttonElevation(8.dp)
+                    ) {
+                        Text(text = stringResource(id = R.string.go_back_button_label))
+                    }
+                }
             }
         }
-    }
-}
-
-@Composable
-fun getRecipeIcon(recipe: Recipe): Painter {
-    return if (recipe.icon == null) {
-        painterResource(id = R.drawable.default_recipe_icon)
-    } else {
-        painterResource(id = recipe.icon)
-    }
-}
-
-@Composable
-fun getRecipeIconDesc(recipe: Recipe): String {
-    return if (recipe.iconDesc == null) {
-        stringResource(id = R.string.default_recipe_icon_description)
-    } else {
-        stringResource(id = recipe.iconDesc)
     }
 }

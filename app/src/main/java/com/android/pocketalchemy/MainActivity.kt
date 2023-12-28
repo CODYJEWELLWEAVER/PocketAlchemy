@@ -1,6 +1,7 @@
 package com.android.pocketalchemy
 
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.viewModels
@@ -49,7 +50,10 @@ class MainActivity : ComponentActivity() {
                             }
                         )
 
-                        EditRecipeScreen(editRecipeViewModel = editRecipeViewModel)
+                        EditRecipeScreen(
+                            navController,
+                            editRecipeViewModel
+                        )
                     }
                 }
             }
@@ -62,6 +66,7 @@ class MainActivity : ComponentActivity() {
         // before signing in
         // TODO: REFACTOR FOR EMAIL:PASSWORD AUTH
         if (!authRepository.isUserSignedIn()) {
+            Log.d(TAG, "Logging in...")
             authRepository.signInAnonymousUser()
         }
     }

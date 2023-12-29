@@ -1,5 +1,6 @@
 package com.android.pocketalchemy.editrecipe
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,7 +18,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -45,8 +45,10 @@ fun EditRecipeScreen(
 ) {
     val appBarTitle = R.string.edit_recipe_title
 
-    val recipeState: State<Recipe> = editRecipeViewModel.getRecipe().collectAsState()
+    val recipeState: State<Recipe> = editRecipeViewModel.recipe
+
     val recipe = recipeState.value
+    Log.d(TAG, "${recipeState.value.title}")
 
     Scaffold(
         contentColor = MaterialTheme.colorScheme.onBackground,
@@ -81,10 +83,9 @@ fun EditRecipeScreen(
                             } else {
                                 it
                             }
-
-                            editRecipeViewModel.updateRecipe { oldRecipe ->
-                                oldRecipe.copy(title = it)
-                            }
+                            editRecipeViewModel.updateRecipeState(
+                                recipe.copy(title = title)
+                            )
                         },
                         label = {
                             Text(
@@ -104,10 +105,9 @@ fun EditRecipeScreen(
                             } else {
                                 it
                             }
-
-                            editRecipeViewModel.updateRecipe { oldRecipe ->
-                                oldRecipe.copy(subtitle = subtitle)
-                            }
+                            editRecipeViewModel.updateRecipeState(
+                                recipe.copy(subtitle = subtitle)
+                            )
                         },
                         label = {
                             Text(
@@ -150,10 +150,9 @@ fun EditRecipeScreen(
                         } else {
                             it
                         }
-
-                        editRecipeViewModel.updateRecipe { oldRecipe ->
-                            oldRecipe.copy(description = description)
-                        }
+                        editRecipeViewModel.updateRecipeState(
+                            recipe.copy(description = description)
+                        )
                     },
                     label = {
                         Text(
@@ -183,7 +182,7 @@ fun EditRecipeScreen(
                 ) {
                     Button(
                         onClick = {
-                            editRecipeViewModel.saveRecipe()
+                            editRecipeViewModel.saveRecipe(recipe)
                             navController.popBackStack()
                         },
                         modifier = Modifier.fillMaxWidth(.5f),

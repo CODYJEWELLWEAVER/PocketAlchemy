@@ -1,6 +1,5 @@
 package com.android.pocketalchemy.editrecipe
 
-import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -37,6 +36,8 @@ private const val DESC_ROW_HEIGHT = 150
 
 /**
  * Screen for creating and editing recipes.
+ * @param navController NavController for current NavHost
+ * @param editRecipeViewModel EditRecipeViewModel - should be initialized with setRecipeId()
  */
 @Composable
 fun EditRecipeScreen(
@@ -44,11 +45,8 @@ fun EditRecipeScreen(
     editRecipeViewModel: EditRecipeViewModel
 ) {
     val appBarTitle = R.string.edit_recipe_title
-
-    val recipeState: State<Recipe> = editRecipeViewModel.recipe
-
+    val recipeState: State<Recipe> = editRecipeViewModel.recipeState
     val recipe = recipeState.value
-    Log.d(TAG, "${recipeState.value.title}")
 
     Scaffold(
         contentColor = MaterialTheme.colorScheme.onBackground,
@@ -118,9 +116,9 @@ fun EditRecipeScreen(
                     )
                 }
 
-                ///////////////
+                //////////////
                 // Recipe Icon
-                ///////////////
+                //////////////
                 Column(
                     modifier = Modifier.height(TITLE_ROW_HEIGHT.dp)
                 ) {
@@ -136,7 +134,10 @@ fun EditRecipeScreen(
                 }
             }
 
-            Row( // Description
+            //////////////
+            // Description
+            //////////////
+            Row(
                 modifier = Modifier
                     .height(DESC_ROW_HEIGHT.dp)
                     .fillMaxWidth(1f)
@@ -173,7 +174,10 @@ fun EditRecipeScreen(
 
             ) { /* TODO: */ }
 
-            Row( // Cancel and Save buttons
+            //////////////////////////
+            // Cancel and Save buttons
+            //////////////////////////
+            Row(
                 modifier = Modifier.padding(4.dp)
             ) {
                 // Save button
@@ -182,7 +186,7 @@ fun EditRecipeScreen(
                 ) {
                     Button(
                         onClick = {
-                            editRecipeViewModel.saveRecipe(recipe)
+                            editRecipeViewModel.saveRecipe()
                             navController.popBackStack()
                         },
                         modifier = Modifier.fillMaxWidth(.5f),

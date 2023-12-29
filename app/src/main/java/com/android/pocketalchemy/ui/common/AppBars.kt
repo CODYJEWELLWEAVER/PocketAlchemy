@@ -14,8 +14,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.android.pocketalchemy.R
 
+/**
+ * Top app bar for PocketAlchemy
+ * @param titleId string resource id for title
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PaTopAppBar(
@@ -35,8 +40,20 @@ fun PaTopAppBar(
     )
 }
 
+/**
+ * Navigation bar
+ * @param navController NavController for current nav host
+ * @param isRecipeListSelected true if on recipe list screen.
+ * @param isIngredientsSelected true if on ingredients screen.
+ * @param isNutritionSelected true if on nutrition screen.
+ */
 @Composable
-fun PaNavBar() {
+fun PaNavBar(
+    navController: NavController,
+    isRecipeListSelected: Boolean = false,
+    isIngredientsSelected: Boolean = false,
+    isNutritionSelected: Boolean = false,
+) {
     NavigationBar(
         containerColor = MaterialTheme.colorScheme.primaryContainer,
         contentColor = MaterialTheme.colorScheme.onPrimaryContainer,
@@ -51,8 +68,11 @@ fun PaNavBar() {
         
         // RECIPE LIST NAV ITEM
         NavigationBarItem(
-            selected = true,
-            onClick = { /*TODO*/ },
+            selected = isRecipeListSelected,
+            enabled = !isRecipeListSelected,
+            onClick = {
+                navController.navigate("recipeListScreen")
+            },
             icon = {
                 Icon(
                     painter = painterResource(id = R.drawable.bulleted_list),
@@ -66,7 +86,8 @@ fun PaNavBar() {
         )
         // INGREDIENT LISTS NAV ITEM
         NavigationBarItem(
-            selected = true,
+            selected = isIngredientsSelected,
+            enabled = !isIngredientsSelected,
             onClick = { /*TODO*/ },
             icon = {
                 Icon(
@@ -83,7 +104,8 @@ fun PaNavBar() {
         )
         // NUTRITION NAV ITEM
         NavigationBarItem(
-            selected = true,
+            selected = isNutritionSelected,
+            enabled = !isNutritionSelected,
             onClick = { /*TODO*/ },
             icon = {
                 Icon(

@@ -11,16 +11,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import com.android.pocketalchemy.R
 import com.android.pocketalchemy.ui.common.PaNavBar
 import com.android.pocketalchemy.ui.common.PaTopAppBar
 
+/**
+ * Creates scaffold environment for RecipeList
+ * @param navController NavController for current NavHost
+ * @param onNavigateToEditRecipe callback for navigation to edit/create recipe
+ */
 @Composable
 fun RecipeListScreen(
-    recipeListViewModel: RecipeListViewModel = hiltViewModel(),
-    onNavigateToEditRecipe: () -> Unit,
-    onNavigateToNewRecipe: () -> Unit,
+    navController: NavController,
+    onNavigateToEditRecipe: (String?) -> Unit,
 ) {
     Scaffold(
         contentColor = MaterialTheme.colorScheme.onBackground,
@@ -29,13 +33,10 @@ fun RecipeListScreen(
             PaTopAppBar(titleId = R.string.app_name)
         },
         floatingActionButton = {
-            NewRecipeFAB(
-                // Load screen for creating a new recipe
-                onClick = onNavigateToNewRecipe
-            )
+            NewRecipeFAB() { onNavigateToEditRecipe(null) }
         },
         bottomBar = {
-            PaNavBar()
+            PaNavBar(navController, isRecipeListSelected = true)
         }
     ) { scaffoldPadding ->
         Column(
@@ -46,9 +47,14 @@ fun RecipeListScreen(
     }
 }
 
+/**
+ * FAB to launch recipe creation.
+ * @param onNavigateToEditRecipe
+ * callback for navigating to new recipe creation screen
+ */
 @Composable
 private fun NewRecipeFAB(
-    onClick: () -> Unit
+    onNavigateToEditRecipe: () -> Unit
 ) {
     ExtendedFloatingActionButton(
         containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -64,6 +70,6 @@ private fun NewRecipeFAB(
                 contentDescription = stringResource(id = R.string.create_description),
             )
         },
-        onClick = { onClick() }
+        onClick = { onNavigateToEditRecipe() }
     )
 }

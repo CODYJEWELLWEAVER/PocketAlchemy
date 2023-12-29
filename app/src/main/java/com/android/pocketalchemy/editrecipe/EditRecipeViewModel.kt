@@ -17,6 +17,9 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * ViewModel for EditRecipeScreen
+ */
 @HiltViewModel
 class EditRecipeViewModel @Inject constructor(
     private val savedStateHandle: SavedStateHandle,
@@ -83,7 +86,7 @@ class EditRecipeViewModel @Inject constructor(
         // TODO: Check no required fields are empty!!!
         viewModelScope.launch {
             _recipe.collectLatest {
-                recipeRepository.saveRecipe(it.copy(recipeId = recipeId))
+                recipeRepository.insertRecipe(it.copy(recipeId = recipeId))
             }
         }
 

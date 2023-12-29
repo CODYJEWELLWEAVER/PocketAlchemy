@@ -35,20 +35,26 @@ private const val MAX_DETAIL_LINES = 7
 // ingredient list label.
 private const val MAX_INGREDIENT_LINES = MAX_DETAIL_LINES - 1
 
+/**
+ * Displays a recipe's highlights and overview.
+ * @param recipe recipe to display on card
+ * @param onNavigateToEditRecipe callback for editing recipe navigation
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun RecipeListCard(
     recipe: Recipe,
-    onClick: () -> Unit,
+    onNavigateToEditRecipe: (String?) -> Unit,
 ) {
-    val cardElevation = CardDefaults.cardElevation(
-        4.dp,
-    )
 
     Card(
-        onClick = {  },
+        onClick = {
+            onNavigateToEditRecipe(recipe.recipeId)
+        },
         enabled = true,
-        elevation = cardElevation
+        elevation = CardDefaults.cardElevation(
+            4.dp,
+        )
     ) {
         Column(
             modifier = Modifier

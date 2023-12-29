@@ -22,18 +22,20 @@ class AuthRepository @Inject constructor(
         return auth.currentUser?.uid
     }
 
-    // Returns current firebase user object
-    // Only safe to use after calling isUserSignedIn()
+    /**
+    * Returns current firebase user object
+    * Only safe to use after calling isUserSignedIn()
+    */
     fun getUser(): FirebaseUser {
         return auth.currentUser!!
     }
 
-    // Check if a user is currently signed in
+    /** Check if a user is currently signed in */
     fun isUserSignedIn(): Boolean {
         return auth.currentUser != null
     }
 
-    // Perform anonymous sign-in request
+    /** Perform anonymous sign-in request */
     fun signInAnonymousUser() {
         auth.signInAnonymously()
             .addOnCompleteListener { task ->

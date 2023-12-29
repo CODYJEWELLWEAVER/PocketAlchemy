@@ -12,12 +12,20 @@ import javax.inject.Inject
 
 private const val TAG = "RecipeRepository"
 
+/**
+ * Repository for accessing recipe collection.
+ * @param firestore firestore instance
+ * @param authRepository repository for authentication
+ */
 @ViewModelScoped
 class RecipeRepository @Inject constructor(
     private val firestore: FirebaseFirestore,
     private val authRepository: AuthRepository
 ) {
 
+    /**
+     * Returns a flow of current user's recipes.
+     */
     fun getUserRecipeList(): Flow<List<Recipe>> {
         val user = authRepository.getUser()
         return firestore.collection(RECIPE_COLLECTION)
@@ -26,34 +34,36 @@ class RecipeRepository @Inject constructor(
 
     }
 
-    fun insertUserRecipe(recipe: Recipe) {
-        firestore.collection(RECIPE_COLLECTION).add(recipe)
-    }
-
-    fun getRecipe(recipeDocumentId: String?): DocumentReference {
-        return if (recipeDocumentId == null) {
+    /**
+     * Returns a reference to document with given id or
+     * creates a new document if recipeId is null.
+     * @param recipeId recipeId to retrieve or null for document creation
+     */
+    fun getRecipe(recipeId: String?): DocumentReference {
+        return if (recipeId == null) {
             // Creates new document ref
             firestore.collection(RECIPE_COLLECTION).document()
         } else {
-            // Return snapshot of current doc
-            firestore.collection(RECIPE_COLLECTION).document(recipeDocumentId)
+            Log.d(TAG, recipeId)
+            // Return doc
+            firestore.collection(RECIPE_COLLECTION).document(recipeId)
         }
     }
 
     /**
      * Saves current recipe as document in recipe collection.
+     * @param recipe Recipe object to insert into collection
      */
-    fun saveRecipe(recipe: Recipe) {
-        Log.d(TAG, "${recipe.recipeId}")
+    fun insertRecipe(recipe: Recipe) {
         recipe.recipeId?.let {
             firestore.collection(RECIPE_COLLECTION).document(it)
                 .set(recipe)
                 .addOnSuccessListener {
-                    Log.i(TAG, "Save recipe successful...")
+                    Log.i(TAG, "Insert recipe successful...")
 
                 }
                 .addOnFailureListener {
-                    Log.w(TAG, "Could not save recipe. Exception: $it")
+                    Log.w(TAG, "Could not insert recipe. Exception: $it")
                 }
         }
     }

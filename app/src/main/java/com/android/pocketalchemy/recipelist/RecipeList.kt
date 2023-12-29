@@ -14,9 +14,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.pocketalchemy.model.Recipe
 
+/**
+ * Lazy Column for displaying lists of recipe cards.
+ * @param onNavigateToEditRecipe navigation callback for editing recipe
+ * @param recipeListViewModel view model
+ */
 @Composable
 fun RecipeList(
-    onNavigateToEditRecipe: () -> Unit,
+    onNavigateToEditRecipe: (String?) -> Unit,
     recipeListViewModel: RecipeListViewModel = hiltViewModel<RecipeListViewModel>()
 ) {
     val recipes: State<List<Recipe>>
@@ -35,7 +40,7 @@ fun RecipeList(
                 Box(
                     modifier = Modifier.padding(vertical = 8.dp)
                 ) {
-                    RecipeListCard(recipe = it, onClick = onNavigateToEditRecipe)
+                    RecipeListCard(recipe = it, onNavigateToEditRecipe)
                 }
             }
         }

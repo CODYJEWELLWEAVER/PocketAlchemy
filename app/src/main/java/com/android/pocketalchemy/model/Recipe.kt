@@ -11,6 +11,9 @@ import com.android.pocketalchemy.R
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.IgnoreExtraProperties
 
+/**
+ * Model for recipes
+ */
 @IgnoreExtraProperties
 @Keep
 data class Recipe(
@@ -25,6 +28,7 @@ data class Recipe(
     @StringRes val iconDescRes: Int?  = null
 ) {
     companion object {
+        // Field names to use when querying firestore
         const val USER_ID_FIELD = "userId"
     }
 }

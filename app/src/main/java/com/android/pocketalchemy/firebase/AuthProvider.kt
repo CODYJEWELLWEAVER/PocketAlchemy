@@ -11,6 +11,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
+/**
+ * Hilt Module for Firebase Authentication
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 object AuthProvider {

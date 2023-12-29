@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@android:style/Theme.DeviceDefault.NoActionBar"
         tools:targetApi="34"
-        android:usesCleartextTraffic="false"> <!-- TODO: "true" only for testing with auth emulator -->
+        android:usesCleartextTraffic="false">
         <activity
             android:name=".MainActivity"
             android:exported="true">

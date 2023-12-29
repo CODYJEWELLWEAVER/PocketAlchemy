@@ -35,6 +35,9 @@ private const val TAG = "EditRecipeScreen"
 private const val TITLE_ROW_HEIGHT = 150
 private const val DESC_ROW_HEIGHT = 150
 
+/**
+ * Screen for creating and editing recipes.
+ */
 @Composable
 fun EditRecipeScreen(
     navController: NavController,
@@ -52,7 +55,7 @@ fun EditRecipeScreen(
             PaTopAppBar(titleId = appBarTitle)
         },
         bottomBar = {
-            PaNavBar()
+            PaNavBar(navController)
         }
     ) { scaffoldPadding ->
         Column(
@@ -176,7 +179,7 @@ fun EditRecipeScreen(
             ) {
                 // Save button
                 Box(
-                    modifier = Modifier.padding(horizontal = 4.dp)
+                    modifier = Modifier.padding(horizontal = 4.dp, vertical = 8.dp)
                 ) {
                     Button(
                         onClick = {
@@ -192,7 +195,7 @@ fun EditRecipeScreen(
 
                 // Cancel "go back" button
                 Box(
-                    modifier = Modifier.padding(horizontal = 4.dp)
+                    modifier = Modifier.padding(horizontal = 4.dp, vertical = 8.dp)
                 ) {
                     Button(
                         onClick = {

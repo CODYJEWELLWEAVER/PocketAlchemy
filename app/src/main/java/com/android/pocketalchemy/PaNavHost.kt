@@ -1,6 +1,7 @@
 package com.android.pocketalchemy
 
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavType
@@ -39,8 +40,9 @@ fun PaNavHost() {
             val editRecipeViewModel = hiltViewModel<EditRecipeViewModel>()
             val recipeIdArg = remember { backStackEntry.arguments?.getString("recipeId") }
 
-            // Has no effect on recomposition
-            editRecipeViewModel.setRecipeId(recipeIdArg)
+            LaunchedEffect(recipeIdArg) {
+                editRecipeViewModel.setRecipeId(recipeIdArg)
+            }
 
             EditRecipeScreen(
                 navController,

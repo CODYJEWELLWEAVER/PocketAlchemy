@@ -45,8 +45,7 @@ class RecipeRepository @Inject constructor(
             // Creates new document ref
             firestore.collection(RECIPE_COLLECTION).document()
         } else {
-            Log.d(TAG, recipeId)
-            // Return doc
+            // Return existing document ref
             firestore.collection(RECIPE_COLLECTION).document("$recipeId")
         }
     }
@@ -56,7 +55,6 @@ class RecipeRepository @Inject constructor(
      * @param recipe Recipe object to insert into collection
      */
     fun insertRecipe(recipe: Recipe) {
-        Log.d(TAG, "$recipe")
         recipe.recipeId?.let { id ->
             firestore.collection(RECIPE_COLLECTION).document(id)
                 .set(recipe)

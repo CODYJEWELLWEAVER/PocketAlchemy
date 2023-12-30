@@ -36,7 +36,7 @@ class PaInstrumentedTest {
 
     /**
      * Tests functionality of NewRecipeFAB
-     * TODO: TEST CLICK
+     * TODO: TEST CLICK SETS SAVED STATE HANDLE
      */
     @Test
     fun createRecipeFABTest() {

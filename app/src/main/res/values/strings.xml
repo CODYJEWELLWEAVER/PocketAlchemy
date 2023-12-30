@@ -4,6 +4,9 @@
     // App bar titles.
     <string name="edit_recipe_title">Edit Recipe</string>
 
+    // Login screen labels.
+    <string name="guest_login_label">continue as guest</string>
+
     // Edit recipe screen labels.
     <string name="recipe_title_label">Title</string>
     <string name="recipe_subtitle_label">Subtitle</string>

@@ -43,7 +43,7 @@ class PaInstrumentedTest {
         composeTestRule.activityRule.scenario.moveToState(Lifecycle.State.CREATED)
         composeTestRule.activity.setContent {
             PocketAlchemyTheme {
-                PaNavHost()
+                PaNavHost(authRepository)
             }
         }
         composeTestRule.activityRule.scenario.moveToState(Lifecycle.State.STARTED)

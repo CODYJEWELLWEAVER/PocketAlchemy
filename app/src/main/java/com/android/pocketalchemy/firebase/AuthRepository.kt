@@ -23,26 +23,30 @@ class AuthRepository @Inject constructor(
     }
 
     /**
-    * Returns current firebase user object
-    * Only safe to use after calling isUserSignedIn()
+    * Returns current firebase user object.
+    * NOTE: Not safe in LoginScreen!!!
     */
     fun getUser(): FirebaseUser {
         return auth.currentUser!!
     }
 
-    /** Check if a user is currently signed in */
-    fun isUserSignedIn(): Boolean {
-        return auth.currentUser != null
-    }
-
-    /** Perform anonymous sign-in request */
-    fun signInAnonymousUser() {
+    /**
+     * Perform anonymous sign-in request
+     * @param onSuccess callback for navigating to default landing page (RecipeListScreen)
+     * @param onFailure callback for navigating to login error screen TODO: make error login screen
+     */
+    fun signInAnonymousUser(
+        onSuccess: () -> Unit,
+        onFailure: () -> Unit,
+    ) {
         auth.signInAnonymously()
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     Log.d(TAG, "Anonymous sign in completed successfully.")
+                    onSuccess()
                 } else {
                     Log.w(TAG, "Anonymous sign in failed...")
+                    onFailure()
                 }
             }
             .addOnFailureListener {

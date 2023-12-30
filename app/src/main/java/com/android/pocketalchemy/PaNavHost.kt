@@ -11,16 +11,32 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.android.pocketalchemy.editrecipe.EditRecipeScreen
 import com.android.pocketalchemy.editrecipe.EditRecipeViewModel
+import com.android.pocketalchemy.firebase.AuthRepository
+import com.android.pocketalchemy.login.LoginScreen
 import com.android.pocketalchemy.recipelist.RecipeListScreen
 
 /**
  * Launches navigation host.
  */
 @Composable
-fun PaNavHost() {
+fun PaNavHost(
+    authRepository: AuthRepository
+) {
     val navController = rememberNavController()
 
-    NavHost(navController, startDestination = "recipeListScreen") {
+    NavHost(navController, startDestination = "loginScreen") {
+        composable("loginScreen") {
+            LoginScreen {
+                authRepository.signInAnonymousUser(
+                    onSuccess = {
+                        navController.navigate("recipeListScreen")
+                    },
+                    onFailure = {
+                        // TODO: Navigate to error on login screen
+                    }
+                )
+            }
+        }
         composable("recipeListScreen") {
             RecipeListScreen(
                 navController,

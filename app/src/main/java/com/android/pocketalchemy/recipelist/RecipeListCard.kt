@@ -18,6 +18,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -25,8 +26,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.android.pocketalchemy.R
 import com.android.pocketalchemy.model.Recipe
-import com.android.pocketalchemy.model.getIcon
-import com.android.pocketalchemy.model.getIconDesc
+import com.android.pocketalchemy.model.getIconDescRes
+import com.android.pocketalchemy.model.getIconRes
 
 // Max number of lines of text for recipe descriptions.
 private const val MAX_DETAIL_LINES = 7
@@ -71,8 +72,8 @@ fun RecipeListCard(
                 // Recipe icon
                 //////////////////
                 Icon(
-                    painter = recipe.getIcon(),
-                    contentDescription = recipe.getIconDesc(),
+                    painter = painterResource(id = recipe.getIconRes()),
+                    contentDescription = stringResource(id = recipe.getIconDescRes()),
                     modifier = Modifier.fillMaxWidth(.3f),
                 )
                 Column {

@@ -40,13 +40,14 @@ class RecipeRepository @Inject constructor(
      * @param recipeId recipeId to retrieve or null for document creation
      */
     fun getRecipe(recipeId: String?): DocumentReference {
+        Log.d(TAG, "get recipe with $recipeId")
         return if (recipeId == null) {
             // Creates new document ref
             firestore.collection(RECIPE_COLLECTION).document()
         } else {
             Log.d(TAG, recipeId)
             // Return doc
-            firestore.collection(RECIPE_COLLECTION).document(recipeId)
+            firestore.collection(RECIPE_COLLECTION).document("$recipeId")
         }
     }
 
@@ -55,12 +56,12 @@ class RecipeRepository @Inject constructor(
      * @param recipe Recipe object to insert into collection
      */
     fun insertRecipe(recipe: Recipe) {
+        Log.d(TAG, "$recipe")
         recipe.recipeId?.let { id ->
             firestore.collection(RECIPE_COLLECTION).document(id)
                 .set(recipe)
                 .addOnSuccessListener {
                     Log.i(TAG, "Insert recipe successful...")
-
                 }
                 .addOnFailureListener {
                     Log.w(TAG, "Could not insert recipe. Exception: $it")

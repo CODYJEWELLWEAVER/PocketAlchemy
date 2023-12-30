@@ -53,7 +53,7 @@ fun RecipeListScreen(
  * callback for navigating to new recipe creation screen
  */
 @Composable
-private fun NewRecipeFAB(
+fun NewRecipeFAB(
     onNavigateToEditRecipe: () -> Unit
 ) {
     ExtendedFloatingActionButton(

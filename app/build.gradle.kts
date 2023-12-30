@@ -19,11 +19,12 @@ android {
     defaultConfig {
         applicationId = "com.android.pocketalchemy"
         minSdk = 26
-        targetSdk = 34
+        targetSdk = 33
         versionCode = 1
         versionName = "1.0-alpha"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = "com.android.pocketalchemy.dagger.PaTestRunner"
+
         vectorDrawables {
             useSupportLibrary = true
         }
@@ -58,6 +59,11 @@ android {
         compose = true
         buildConfig = true
     }
+    testOptions {
+        unitTests {
+            isIncludeAndroidResources = true
+        }
+    }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.3"
     }
@@ -74,6 +80,7 @@ dependencies {
     val lifecycle_version = "2.6.2"
     val navigation_version = "2.7.6"
 
+    implementation("androidx.test:runner:1.5.2")
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version")
@@ -92,14 +99,27 @@ dependencies {
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.firebase:firebase-auth")
+    implementation("com.google.dagger:hilt-android-testing:$dagger_version")
     ksp("com.google.dagger:dagger-compiler:$dagger_version")
     ksp("com.google.dagger:hilt-compiler:$dagger_version")
     ksp("androidx.hilt:hilt-compiler:1.1.0")
+    kspTest("com.google.dagger:hilt-android-compiler:$dagger_version")
+    kspTest("com.google.dagger:hilt-android-testing:$dagger_version")
     testImplementation("junit:junit:4.13.2")
+    testImplementation("org.junit.jupiter:junit-jupiter:5.7.1")
+    testImplementation("org.mockito:mockito-core:5.7.0")
+    testImplementation("org.mockito.kotlin:mockito-kotlin:5.2.1")
+    testImplementation("com.google.dagger:hilt-android-testing:2.49@aar")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    androidTestImplementation("androidx.test.espresso:espresso-intents:3.5.1")
     androidTestImplementation(platform("androidx.compose:compose-bom:2023.10.01"))
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+    androidTestImplementation("com.google.dagger:hilt-android-testing:2.49@aar")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher")
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
+    androidTestImplementation("androidx.compose.ui:ui-test-junit4")
+
 }

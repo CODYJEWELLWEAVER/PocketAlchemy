@@ -3,16 +3,15 @@ package com.android.pocketalchemy.model
 import androidx.annotation.DrawableRes
 import androidx.annotation.Keep
 import androidx.annotation.StringRes
-import androidx.compose.runtime.Composable
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import com.android.pocketalchemy.R
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.IgnoreExtraProperties
 
 /**
  * Model for recipes
+ * @property recipeId ID used to uniquely identify recipe document
+ * @property userId ID of user who created this document
+ * @property title String representing tiltle
  */
 @IgnoreExtraProperties
 @Keep
@@ -36,23 +35,13 @@ data class Recipe(
 /**
  * Retrieves painter for recipe icon.
  */
-@Composable
-fun Recipe.getIcon(): Painter {
-    return if (this.iconRes == null) {
-        painterResource(id = R.drawable.default_recipe_icon)
-    } else {
-        painterResource(id = this.iconRes)
-    }
+fun Recipe.getIconRes(): Int {
+    return this.iconRes ?: R.drawable.default_recipe_icon
 }
 
 /**
  * Retrieves string resource for recipe icon description.
  */
-@Composable
-fun Recipe.getIconDesc(): String {
-    return if (this.iconDescRes == null) {
-        stringResource(id = R.string.default_recipe_icon_description)
-    } else {
-        stringResource(id = this.iconDescRes)
-    }
+fun Recipe.getIconDescRes(): Int {
+    return this.iconDescRes ?: R.string.default_recipe_icon_description
 }

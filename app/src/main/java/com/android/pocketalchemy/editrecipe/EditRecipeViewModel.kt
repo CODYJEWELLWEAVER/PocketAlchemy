@@ -46,12 +46,16 @@ class EditRecipeViewModel @Inject constructor(
 
     /**
      * Initializes view model with recipe from recipeId.
+     * Has no effect if already set.
      * @param recipeId used to retrieve recipe document
      */
     fun setRecipeId(recipeId: String?) {
-        val recipeDoc = recipeRepository.getRecipe(recipeId)
-        savedStateHandle[EDIT_RECIPE_ID_KEY] = recipeDoc.id
-        getRecipeSnapshot()
+        // no effect if already set
+        if (this.recipeId == null) {
+            val recipeDoc = recipeRepository.getRecipe(recipeId)
+            savedStateHandle[EDIT_RECIPE_ID_KEY] = recipeDoc.id
+            getRecipeSnapshot()
+        }
     }
 
     /**
@@ -67,12 +71,13 @@ class EditRecipeViewModel @Inject constructor(
      * content when request completes.
      */
     private fun getRecipeSnapshot() {
+        Log.d(TAG, "getRecipeSnapshot")
         val recipeDoc = recipeRepository.getRecipe(recipeId)
 
         recipeDoc.get()
             .addOnSuccessListener { snapshot ->
                 snapshot.toObject<Recipe>()?.let {
-                    _recipeState.value = it
+                    updateRecipeState(it)
                 }
             }
             .addOnFailureListener {
@@ -84,7 +89,7 @@ class EditRecipeViewModel @Inject constructor(
      * Updates ui state model
      */
     fun updateRecipeState(recipe: Recipe) {
-        _recipeState.value = recipe
+        _recipeState.value = recipe.copy(recipeId = recipeId)
     }
 
     /**

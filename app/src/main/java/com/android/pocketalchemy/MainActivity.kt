@@ -20,11 +20,8 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // Check if an anonymous user is already signed-in
-        // before signing in
-        // TODO: REFACTOR FOR EMAIL:PASSWORD AUTH
         if (!authRepository.isUserSignedIn()) {
-            Log.d(TAG, "Logging in...")
+            Log.d(TAG, "Logging in anonymously...")
             authRepository.signInAnonymousUser()
         }
 

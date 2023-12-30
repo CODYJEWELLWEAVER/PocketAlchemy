@@ -18,13 +18,14 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.android.pocketalchemy.R
 import com.android.pocketalchemy.model.Recipe
-import com.android.pocketalchemy.model.getIcon
-import com.android.pocketalchemy.model.getIconDesc
+import com.android.pocketalchemy.model.getIconDescRes
+import com.android.pocketalchemy.model.getIconRes
 import com.android.pocketalchemy.ui.common.PaNavBar
 import com.android.pocketalchemy.ui.common.PaTopAppBar
 
@@ -127,8 +128,8 @@ fun EditRecipeScreen(
                         onClick = { /*TODO: ICON SELECTOR*/ }
                     ) {
                         Icon(
-                            painter = recipe.getIcon(),
-                            contentDescription = recipe.getIconDesc()
+                            painter = painterResource(id = recipe.getIconRes()),
+                            contentDescription = stringResource(id = recipe.getIconDescRes())
                         )
                     }
                 }

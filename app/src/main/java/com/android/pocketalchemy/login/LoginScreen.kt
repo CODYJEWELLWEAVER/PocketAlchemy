@@ -21,10 +21,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.android.pocketalchemy.R
 
-@Preview
 @Composable
 fun LoginScreen(
-    onLoginAttempt: () -> Unit = {},
+    onLoginAttempt: () -> Unit,
 ) {
     Surface(
         color = MaterialTheme.colorScheme.primaryContainer,

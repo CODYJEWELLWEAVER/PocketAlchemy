@@ -35,8 +35,7 @@ class PaInstrumentedTest {
     }
 
     /**
-     * Tests functionality of NewRecipeFAB
-     * TODO: TEST CLICK SETS SAVED STATE HANDLE
+     * Tests navigation functionality of NewRecipeFAB
      */
     @Test
     fun createRecipeFABTest() {
@@ -48,6 +47,9 @@ class PaInstrumentedTest {
         }
         composeTestRule.activityRule.scenario.moveToState(Lifecycle.State.STARTED)
         composeTestRule.activityRule.scenario.moveToState(Lifecycle.State.RESUMED)
+
+        composeTestRule.onNodeWithText("continue as guest").performClick()
+        composeTestRule.waitForIdle()
 
         composeTestRule.waitForIdle()
         composeTestRule.onNodeWithText("New Recipe", useUnmergedTree = true)

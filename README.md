@@ -1,7 +1,7 @@
 # PocketAlchemy
 ---
 ### *WORK IN PROGRESS*
-#### *version: 1.0-alpha* 
+#### *version: 0.1.alpha* 
 [![Android CI](https://github.com/CODYJEWELLWEAVER/PocketAlchemy/actions/workflows/android.yml/badge.svg)](https://github.com/CODYJEWELLWEAVER/PocketAlchemy/actions/workflows/android.yml)
 
   Built with the home cook in mind. PocketAlchemy is a recipe book application for Android built with Kotlin and AndroidStudio. 

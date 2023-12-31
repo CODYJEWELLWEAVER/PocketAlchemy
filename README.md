@@ -9,8 +9,8 @@ Create, save, and organize recipes. Create shopping lists and count calories for
 
 ---
 ## SCREENSHOTS
-[<img src="doc/v0.1.alpha/res/img/LoginScreenDark.png" alt="dark login screen" width = 200px>]()
 [<img src="doc/v0.1.alpha/res/img/LoginScreenLight.png" alt="light login screen" width = 200px>]()
+[<img src="doc/v0.1.alpha/res/img/LoginScreenDark.png" alt="dark login screen" width = 200px>]()
 [<img src="doc/v0.1.alpha/res/img/EmptyListLight.png" alt="light recipe list (empty)" width = 200px>]()
 [<img src="doc/v0.1.alpha/res/img/RecipeListDark.png" alt="dark recipe list" width = 200px>]()
 [<img src="doc/v0.1.alpha/res/img/NewRecipeLight.png" alt="light recipe creation" width = 200px>]()

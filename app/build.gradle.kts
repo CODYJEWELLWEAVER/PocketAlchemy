@@ -20,8 +20,8 @@ android {
         applicationId = "com.android.pocketalchemy"
         minSdk = 26
         targetSdk = 34
-        versionCode = 1
-        versionName = "0.0.alpha"
+        versionCode = 2
+        versionName = "0.1.alpha"
 
         testInstrumentationRunner = "com.android.pocketalchemy.dagger.PaTestRunner"
 

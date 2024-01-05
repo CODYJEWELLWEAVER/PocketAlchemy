@@ -6,8 +6,8 @@ import androidx.annotation.Keep
 /**
  * Ingredient Model class
  */
+@IgnoreExtraPropeties
 @Keep
-@IgnoreExtraProperties
 data class Ingredient(
     @DocumentId val id: String? = null,
     val name: String? = null,

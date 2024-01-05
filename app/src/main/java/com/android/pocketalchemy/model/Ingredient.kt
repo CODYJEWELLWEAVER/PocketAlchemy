@@ -17,7 +17,7 @@ data class Ingredient(
     val fat: MeasuredInt? = null,
     val carbs: MeasuredInt? = null,
     val sodium: MeasuredInt? = null,
-    val fiber: MeasuredInt? = null,,
+    val fiber: MeasuredInt? = null,
     val sugars: MeasuredInt? = null,
     val portions: list<MeasuredInt>? = null,
     val fdcId: String? = null

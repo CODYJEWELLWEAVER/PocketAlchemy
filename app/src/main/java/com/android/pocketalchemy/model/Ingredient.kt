@@ -1,12 +1,12 @@
 package com.android.pocketalchemy.model
+import androidx.annotation.Keep
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.IgnoreExtraProperties
-import androidx.annotation.Keep
 
 /**
  * Ingredient Model class
  */
-@IgnoreExtraPropeties
+@IgnoreExtraProperties
 @Keep
 data class Ingredient(
     @DocumentId val id: String? = null,
@@ -19,7 +19,7 @@ data class Ingredient(
     val sodium: MeasuredInt? = null,
     val fiber: MeasuredInt? = null,
     val sugars: MeasuredInt? = null,
-    val portions: list<MeasuredInt>? = null,
+    val portions: List<MeasuredInt>? = null,
     val fdcId: String? = null
 )
 

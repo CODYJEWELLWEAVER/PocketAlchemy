@@ -1,5 +1,5 @@
 # script for loading USDA source files and extracting
-# neccessary ingredient data: Name, 
+# neccessary ingredient data
 #!/usr/bin/python3.12
 import json
 

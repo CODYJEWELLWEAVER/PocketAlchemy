@@ -1,5 +1,5 @@
-# Unproccessed USDA database files
-brandedFood.json
+# Ignore local USDA DATA
+brandedFoods.json
 foundationFoods.json
 
 # Gradle files

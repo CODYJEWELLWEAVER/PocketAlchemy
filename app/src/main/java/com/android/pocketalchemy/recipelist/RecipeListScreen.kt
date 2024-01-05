@@ -33,7 +33,7 @@ fun RecipeListScreen(
             PaTopAppBar(titleId = R.string.app_name)
         },
         floatingActionButton = {
-            NewRecipeFAB() { onNavigateToEditRecipe(null) }
+            NewRecipeFAB { onNavigateToEditRecipe(null) }
         },
         bottomBar = {
             PaNavBar(navController, isRecipeListSelected = true)

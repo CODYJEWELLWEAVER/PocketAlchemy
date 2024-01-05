@@ -1,4 +1,4 @@
-package com.android.pocketalchemy.firebase
+package com.android.pocketalchemy.repository
 
 import android.util.Log
 import com.google.firebase.auth.FirebaseAuth
@@ -48,10 +48,6 @@ class AuthRepository @Inject constructor(
                     Log.w(TAG, "Anonymous sign in failed...")
                     onFailure()
                 }
-            }
-            .addOnFailureListener {
-                // DEBUG USE
-                throw it
             }
     }
 

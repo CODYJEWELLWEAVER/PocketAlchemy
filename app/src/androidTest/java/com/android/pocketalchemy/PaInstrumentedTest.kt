@@ -5,7 +5,7 @@ import androidx.compose.ui.test.junit4.createAndroidComposeRule
 import androidx.compose.ui.test.onNodeWithText
 import androidx.compose.ui.test.performClick
 import androidx.lifecycle.Lifecycle
-import com.android.pocketalchemy.firebase.AuthRepository
+import com.android.pocketalchemy.repository.AuthRepository
 import com.android.pocketalchemy.ui.theme.PocketAlchemyTheme
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest

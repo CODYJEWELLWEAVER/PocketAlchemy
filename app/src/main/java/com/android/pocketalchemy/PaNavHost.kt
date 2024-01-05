@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -11,9 +12,10 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.android.pocketalchemy.editrecipe.EditRecipeScreen
 import com.android.pocketalchemy.editrecipe.EditRecipeViewModel
-import com.android.pocketalchemy.firebase.AuthRepository
+import com.android.pocketalchemy.login.ErrOnLoginScreen
 import com.android.pocketalchemy.login.LoginScreen
 import com.android.pocketalchemy.recipelist.RecipeListScreen
+import com.android.pocketalchemy.repository.AuthRepository
 
 /**
  * Launches navigation host.
@@ -29,12 +31,17 @@ fun PaNavHost(
             LoginScreen {
                 authRepository.signInAnonymousUser(
                     onSuccess = {
-                        navController.navigate("recipeListScreen")
+                        navController.navigateAndPopAll("recipeListScreen")
                     },
                     onFailure = {
-                        // TODO: Navigate to error on login screen
+                        navController.navigateAndPopAll("errOnLoginScreen")
                     }
                 )
+            }
+        }
+        composable("errOnLoginScreen") {
+            ErrOnLoginScreen {
+                navController.navigateAndPopAll("loginScreen")
             }
         }
         composable("recipeListScreen") {
@@ -65,5 +72,14 @@ fun PaNavHost(
                 editRecipeViewModel,
             )
         }
+    }
+}
+
+/**
+ * Extension function to navigate to dest and clear back stack
+ */
+fun NavController.navigateAndPopAll(route: String) {
+    this.navigate(route) {
+        popUpTo(0)
     }
 }

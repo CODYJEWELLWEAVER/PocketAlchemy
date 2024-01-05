@@ -6,11 +6,13 @@ import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
-import com.android.pocketalchemy.firebase.AuthRepository
+import androidx.lifecycle.viewModelScope
+import com.android.pocketalchemy.repository.AuthRepository
 import com.android.pocketalchemy.model.Recipe
-import com.android.pocketalchemy.model.RecipeRepository
+import com.android.pocketalchemy.repository.RecipeRepository
 import com.google.firebase.firestore.toObject
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 /**
@@ -97,9 +99,10 @@ class EditRecipeViewModel @Inject constructor(
      */
     fun saveRecipe() {
         // TODO: Check no required fields are empty!!!
-        recipeRepository.insertRecipe(this.recipeState.value)
-
-        this.clearRecipeId()
+        viewModelScope.launch {
+            recipeRepository.insertRecipe(recipeState.value)
+            clearRecipeId()
+        }
     }
 
     companion object {

@@ -1,16 +1,14 @@
-package com.android.pocketalchemy.model
+package com.android.pocketalchemy.repository
 
 import android.util.Log
-import com.android.pocketalchemy.firebase.AuthRepository
 import com.android.pocketalchemy.firebase.FirestoreCollections.RECIPE_COLLECTION
+import com.android.pocketalchemy.model.Recipe
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.dataObjects
 import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
-
-private const val TAG = "RecipeRepository"
 
 /**
  * Repository for accessing recipe collection.
@@ -29,8 +27,8 @@ class RecipeRepository @Inject constructor(
     fun getUserRecipeList(): Flow<List<Recipe>> {
         val user = authRepository.getUser()
         return firestore.collection(RECIPE_COLLECTION)
-            .whereEqualTo(Recipe.USER_ID_FIELD, user.uid)
-            .dataObjects<Recipe>()
+                .whereEqualTo(Recipe.USER_ID_FIELD, user.uid)
+                .dataObjects<Recipe>()
 
     }
 
@@ -65,5 +63,9 @@ class RecipeRepository @Inject constructor(
                     Log.w(TAG, "Could not insert recipe. Exception: $it")
                 }
         }
+    }
+
+    companion object {
+        private const val TAG = "RecipeRepository"
     }
 }

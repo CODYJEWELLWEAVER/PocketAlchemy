@@ -53,7 +53,7 @@ class RecipeRepository @Inject constructor(
      * @param recipe Recipe object to insert into collection
      */
     fun insertRecipe(recipe: Recipe) {
-        recipe.recipeId?.let { id ->
+        recipe.id?.let { id ->
             firestore.collection(RECIPE_COLLECTION).document(id)
                 .set(recipe)
                 .addOnSuccessListener {

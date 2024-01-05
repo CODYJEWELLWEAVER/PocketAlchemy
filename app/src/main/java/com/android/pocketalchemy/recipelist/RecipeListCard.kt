@@ -50,7 +50,7 @@ fun RecipeListCard(
 
     Card(
         onClick = {
-            onNavigateToEditRecipe(recipe.recipeId)
+            onNavigateToEditRecipe(recipe.id)
         },
         enabled = true,
         elevation = CardDefaults.cardElevation(

@@ -1,3 +1,7 @@
+# Unproccessed USDA database files
+brandedFood.json
+foundationFoods.json
+
 # Gradle files
 .gradle/
 build/

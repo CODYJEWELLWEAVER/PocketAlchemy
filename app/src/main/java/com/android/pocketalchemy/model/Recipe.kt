@@ -16,7 +16,7 @@ import com.google.firebase.firestore.IgnoreExtraProperties
 @IgnoreExtraProperties
 @Keep
 data class Recipe(
-    @DocumentId val recipeId: String? = null,
+    @DocumentId val id: String? = null,
     val userId: String? = null,
     val title: String? = null,
     val subtitle: String? = null,

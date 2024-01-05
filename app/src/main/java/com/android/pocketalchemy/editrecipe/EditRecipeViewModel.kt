@@ -39,7 +39,7 @@ class EditRecipeViewModel @Inject constructor(
     /**
      * ui state model for EditRecipeScreen
      */
-    private var _recipeState: MutableState<Recipe> = mutableStateOf(Recipe(userId = userId, recipeId = recipeId))
+    private var _recipeState: MutableState<Recipe> = mutableStateOf(Recipe(userId = userId, id = recipeId))
     /**
      * public accessor for ui state model
      */
@@ -91,7 +91,7 @@ class EditRecipeViewModel @Inject constructor(
      * Updates ui state model
      */
     fun updateRecipeState(recipe: Recipe) {
-        _recipeState.value = recipe.copy(recipeId = recipeId)
+        _recipeState.value = recipe.copy(id = recipeId)
     }
 
     /**

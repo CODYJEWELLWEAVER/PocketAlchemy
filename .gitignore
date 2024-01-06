@@ -1,6 +1,9 @@
-# Ignore local USDA DATA
-brandedFoods.json
-foundationFoods.json
+# python
+__pycache__
+.venv
+
+# exclude food data central
+FoodData_Central_*
 
 # Gradle files
 .gradle/

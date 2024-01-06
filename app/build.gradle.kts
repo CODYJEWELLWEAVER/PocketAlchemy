@@ -76,7 +76,7 @@ android {
 }
 
 dependencies {
-    val daggerVersion = "2.49"
+    val daggerVersion = "2.50"
     val lifecycleVersion = "2.6.2"
     val navigationVersion = "2.7.6"
 
@@ -94,7 +94,7 @@ dependencies {
     implementation("com.google.dagger:dagger:$daggerVersion")
     implementation("com.google.dagger:hilt-android:$daggerVersion")
     implementation("androidx.hilt:hilt-navigation-compose:1.1.0")
-    implementation("com.google.accompanist:accompanist-systemuicontroller:0.27.0")
+    implementation("com.google.accompanist:accompanist-systemuicontroller:0.32.0")
     implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
     implementation("com.google.firebase:firebase-analytics")
     implementation("com.google.firebase:firebase-firestore")
@@ -109,7 +109,7 @@ dependencies {
     testImplementation("org.junit.jupiter:junit-jupiter:5.8.2")
     testImplementation("org.mockito:mockito-core:5.7.0")
     testImplementation("org.mockito.kotlin:mockito-kotlin:5.2.1")
-    testImplementation("com.google.dagger:hilt-android-testing:2.49@aar")
+    testImplementation("com.google.dagger:hilt-android-testing:2.50@aar")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.compose.ui:ui-test-junit4")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

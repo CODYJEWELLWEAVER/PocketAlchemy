@@ -12,18 +12,18 @@ data class Ingredient(
     @DocumentId val id: String? = null,
     val name: String? = null,
     val category: String? = null,
-    val calories: MeasuredInt? = null,
-    val protein: MeasuredInt? = null,
-    val fat: MeasuredInt? = null,
-    val carbs: MeasuredInt? = null,
-    val sodium: MeasuredInt? = null,
-    val fiber: MeasuredInt? = null,
-    val sugars: MeasuredInt? = null,
-    val portions: List<MeasuredInt>? = null,
+    val calories: MeasuredFloat? = null,
+    val protein: MeasuredFloat? = null,
+    val fat: MeasuredFloat? = null,
+    val carbs: MeasuredFloat? = null,
+    val sodium: MeasuredFloat? = null,
+    val fiber: MeasuredFloat? = null,
+    val sugars: MeasuredFloat? = null,
+    val portions: List<MeasuredFloat>? = null,
     val fdcId: String? = null
 )
 
 /**
  * TODO: extract possible units from ingredients and make enum
  */
-data class MeasuredInt(val value: Int, val unit: String)
+data class MeasuredFloat(val value: Float, val unit: String)

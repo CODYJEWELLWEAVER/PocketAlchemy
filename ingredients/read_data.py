@@ -1,13 +1,13 @@
 import extract_ingredients
 import util
 import json
-import stopWords
+import stop_words
 
 # EXTRACT FOUNDATION FOODS
 # foundationJson = open("/home/cody/AndroidStudioProjects/PocketAlchemy/ingredients/data/FoodData_Central_foundation_food_json_2023-04-20/foundationFoods.json")
 # foundationFoodData: list[dict] = json.load(foundationJson).get("FoundationFoods")
 
-# extractedIngredients = extract_ingredients.extractIngredients(foundationFoodData, stopWords.stopWordsFoundationData)
+# extractedIngredients = extract_ingredients.extractIngredients(foundationFoodData, stop_words.stopWordsFoundationData)
 
 # for ing in extractedIngredients:
 #     print(ing.get("name"))
@@ -21,7 +21,7 @@ import stopWords
 foundationJson = open("ingredients/data/FoodData_Central_sr_legacy_food_json_2018-04/FoodData_Central_sr_legacy_food_json_2021-10-28.json")
 legacyFoodData: list[dict] = json.load(foundationJson).get("SRLegacyFoods")
 
-extractedIngredients = extract_ingredients.extractIngredients(legacyFoodData, stopWords.stopWordsLegacyData)
+extractedIngredients = extract_ingredients.extractIngredients(legacyFoodData, stop_words.stopWordsLegacyData)
 
 categories = dict()
 

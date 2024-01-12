@@ -2,8 +2,10 @@
 __pycache__
 .venv
 
-# exclude food data central
-FoodData_Central_*
+#excludes USDA FoodData and generated ingredient data
+ingredients/data/raw/
+ingredients/data/intermediate/
+ingredients/data/final/
 
 # Gradle files
 .gradle/

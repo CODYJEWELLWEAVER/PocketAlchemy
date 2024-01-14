@@ -7,8 +7,8 @@ ingredients/data/raw/
 ingredients/data/intermediate/
 ingredients/data/final/
 
-# Private Firebase Admin Key
-ingredients/firebase/key
+# Private Firebase Admin Utilities
+ingredients/firebase_util.py
 
 # Gradle files
 .gradle/

@@ -7,6 +7,9 @@ ingredients/data/raw/
 ingredients/data/intermediate/
 ingredients/data/final/
 
+# Private Firebase Admin Key
+ingredients/firebase/key
+
 # Gradle files
 .gradle/
 build/

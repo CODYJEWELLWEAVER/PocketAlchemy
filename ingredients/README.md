@@ -20,10 +20,60 @@ ingredient database.
     * Visualizations for data.
 6. validate_data.ipynb
     * Performs basic checks for ingredient data and then writes batched data for uploading.
-7. data/
+7. upload_data.ipynb
+    * Uploads batched data to firestore.
+8. data/
     * raw/ _- source datasets_
     * intermediate/ _- generated datasets (unfinished)_
     * final/ _- fully processed and validated datasets (batched)_
+
+### Ingredient Schema
+The complete description of the ingredient data uploaded to firestore is as follows:
+``` python
+ingredient: dict {
+    "description": str,
+    "keywords": list[str], # description key words for searching
+    "fdcId": int,
+    "category": str,
+    "calories": {
+        "unit": str, # kcal
+        "amount": int,
+    },
+    "protein": {
+        "unit": str,
+        "amount": int,
+    },
+    "fat": {
+        "unit": str,
+        "amount": int,
+    },
+    "carbs": {
+        "unit": str,
+        "amount": int,
+    },
+    "fiber": {
+        "unit": str,
+        "amount": int,
+    },
+    "sodium": {
+        "unit": str,
+        "amount": int,
+    },
+    "sugars": {
+        "unit": str,
+        "amount": int,
+    },
+    "measures": [
+        measure: dict { 
+            "unit": str,
+            "value": int,
+            "gWeight": int, # gram weight
+        },
+        ...
+    ]
+}
+```
+
 
 ### Process
 The process used for creating the ingredient dataset for PocketAlchemy is as follows:
@@ -31,4 +81,3 @@ The process used for creating the ingredient dataset for PocketAlchemy is as fol
 2. process_data.ipynb filters out branded data, doctors descriptions, and then tries to merge entries with the same description. Processed data is written to _processed_data.json_.
 3. Data is validated by _validate_data.ipynb_, if data is valid it's then written in batches to _data/final_. See notebook for more detailed info on batching.
 4. Data is uploaded in batches by _upload_data.ipynb_. 
-

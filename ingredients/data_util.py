@@ -35,16 +35,17 @@ def extract_ingredients(jsonData) -> list[dict]:
         fiber: dict = {}
         sugars: dict = {}
         sodium: dict = {}
-        portions: list[dict] = []
+        measures: list[dict] = []
 
         # portion info
         food_portions = food.get("foodPortions")
         for food_portion in food_portions:
-            portion = {}
-            portion[PORTION_VALUE_KEY] = food_portion.get("value")
-            portion[PORTION_ABBR_KEY] = food_portion.get("measureUnit").get("abbreviation")
-            portion[PORTION_GWEIGHT_KEY] = food_portion.get("gramWeight")
-            portions.append(portion)
+            measure = {}
+            measure[MEASURE_VALUE_KEY] = food_portion.get("value")
+            measure[MEASURE_UNIT_KEY] = food_portion.get("measureUnit").get("abbreviation")
+            measure[MEASURE_GWEIGHT_KEY] = food_portion.get("gramWeight")
+            if measure[MEASURE_UNIT_KEY] != "undetermined" and measure[MEASURE_VALUE_KEY] != None:
+                measures.append(measure)
 
         # get nutrient data 
         for nutrient in nutrient_list:
@@ -62,7 +63,7 @@ def extract_ingredients(jsonData) -> list[dict]:
                 case "Protein": 
                     protein[MEASURE_VALUE_KEY] = amount
                     protein[MEASURE_UNIT_KEY] = unit_name
-                case "Total lipid (fat)":
+                case "Total lipid (fat)" | "Total fat (NLEA)":
                     fat[MEASURE_VALUE_KEY] = amount
                     fat[MEASURE_UNIT_KEY] = unit_name
                 case "Carbohydrate, by difference":
@@ -91,7 +92,8 @@ def extract_ingredients(jsonData) -> list[dict]:
         ingredient[SODIUM_KEY] = sodium 
         ingredient[SUGARS_KEY] = sugars 
         ingredient[FIBER_KEY] = fiber
-        ingredient[PORTIONS_KEY] = portions
+        ingredient[MEASURES_KEY] = measures
+        ingredient[KEYWORDS_KEY] = [] # keyword generation happens after description doctoring
 
         if ingredient[DESCRIPTION_KEY] != "":
             extracted_ingredients.append(ingredient)
@@ -103,8 +105,6 @@ def extract_ingredients(jsonData) -> list[dict]:
 """
 START OF FILTERING METHODS
 """
-
-
 
 """
 Checks if a name (description) has any references 
@@ -291,9 +291,10 @@ def update_description(ingredient: dict):
     # remove trailing commas
     if description.endswith(','):
         description = description[0:len(description)-1]
-
+    # update desc.
     ingredient[DESCRIPTION_KEY] = description
-
+    # add keywords for updated desc.
+    ingredient[KEYWORDS_KEY] = generate_keywords(description)
 
 
 """
@@ -321,3 +322,18 @@ def resolve_multiple(ingredients: list[dict]) -> list[dict]:
     # if no foundation ingredient is present returns all
     # to prevent arbitrary exclusions of similar entries
     return ingredients
+
+
+"""
+Generates list of keywords for ingredient description.
+"""
+def generate_keywords(description: str) -> list[str]:
+    description_words = description.lower().split(", ")
+    keywords = []
+    # gen keywords starting with first and second chars in desc
+    for word in description_words:
+        for i in range(0,2):
+            for j in range(i, len(word)):
+                keywords.append(word[i:j+1])
+
+    return keywords

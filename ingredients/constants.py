@@ -9,9 +9,8 @@
 
 
 # FIELD KEYS
-MEASURE_VALUE_KEY = "value"
-MEASURE_UNIT_KEY = "unit"
 DESCRIPTION_KEY = "description"
+KEYWORDS_KEY = "keywords"
 FDC_ID_KEY = "fdcId"
 CATEGORY_KEY = "category"
 CARBS_KEY = "carbs"
@@ -21,10 +20,10 @@ FAT_KEY = "fat"
 FIBER_KEY = "fiber"
 SUGARS_KEY = "sugars"
 PROTEIN_KEY = "protein"
-PORTION_VALUE_KEY = "portion-value"
-PORTION_ABBR_KEY = "portion-abbr"
-PORTION_GWEIGHT_KEY = "portion-gweight"
-PORTIONS_KEY = "portions"
+MEASURE_VALUE_KEY = "value"
+MEASURE_UNIT_KEY = "unit"
+MEASURE_GWEIGHT_KEY = "gWeight"
+MEASURES_KEY = "measures"
 # END FIELD KEYS
 
 # USDA FOOD DATA CATEGORIES TO EXCLUDE IN FINAL DATA

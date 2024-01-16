@@ -26,42 +26,45 @@ data class Recipe(
 
     /**
      * Returns a formatted string displaying estimated time to
-     * complete recipe.
+     * complete recipe if time is non zero, otherwise returns
+     * "Instant!"
      */
-
     val estimatedTime: String
         get() {
             val days: Int = this.time / MINUTES_PER_DAY
             val hours: Int = (this.time - (MINUTES_PER_DAY * days)) / MINUTES_PER_HOUR
             val minutes: Int = this.time % MINUTES_PER_HOUR
 
-            var estTimeParts = mutableListOf<String>()
+            val estTimeParts = mutableListOf<String>()
 
             if (days >= 1) {
-                estTimeParts += "$days "
-                estTimeParts += if (days == 1) {
+                var dayPart = "$days "
+                dayPart += if (days == 1) {
                     "Day"
                 } else {
                     "Days"
                 }
+                estTimeParts += dayPart
             }
 
             if (hours >= 1) {
-                estTimeParts += "$hours "
-                estTimeParts += if (hours == 1) {
+                var hourPart = "$hours "
+                hourPart += if (hours == 1) {
                     "Hour"
                 } else {
                     "Hours"
                 }
+                estTimeParts += hourPart
             }
 
             if (minutes >= 1) {
-                estTimeParts += "$minutes "
-                estTimeParts += if (minutes == 1) {
+                var minutePart = "$minutes "
+                minutePart += if (minutes == 1) {
                     "Minute"
                 } else {
                     "Minutes"
                 }
+                estTimeParts += minutePart
             }
 
             val estTimeString = estTimeParts.joinToString(separator = ", ")

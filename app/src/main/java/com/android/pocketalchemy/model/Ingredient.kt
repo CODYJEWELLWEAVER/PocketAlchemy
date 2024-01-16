@@ -9,21 +9,23 @@ import com.google.firebase.firestore.IgnoreExtraProperties
 @IgnoreExtraProperties
 @Keep
 data class Ingredient(
-    @DocumentId val id: String? = null,
-    val name: String? = null,
-    val category: String? = null,
-    val calories: MeasuredFloat? = null,
-    val protein: MeasuredFloat? = null,
-    val fat: MeasuredFloat? = null,
-    val carbs: MeasuredFloat? = null,
-    val sodium: MeasuredFloat? = null,
-    val fiber: MeasuredFloat? = null,
-    val sugars: MeasuredFloat? = null,
-    val portions: List<MeasuredFloat>? = null,
-    val fdcId: String? = null
-)
-
-/**
- * TODO: extract possible units from ingredients and make enum
- */
-data class MeasuredFloat(val value: Float, val unit: String)
+    @DocumentId val id: String = "",
+    val description: String = "",
+    val keywords: List<String> = listOf(),
+    val category: String = "",
+    val fdcId: String = "",
+    val calories: Map<String, Any> = mapOf(),
+    val protein: Map<String, Any> = mapOf(),
+    val fat: Map<String, Any> = mapOf(),
+    val carbs: Map<String, Any> = mapOf(),
+    val sodium: Map<String, Any> = mapOf(),
+    val fiber: Map<String, Any> = mapOf(),
+    val sugars: Map<String, Any> = mapOf(),
+    val measures: Map<String, Any> = mapOf()
+) {
+    companion object {
+        const val UNIT_KEY = "unit"
+        const val VALUE_KEY = "value"
+        const val DESCRIPTION_KEY = "description"
+    }
+}

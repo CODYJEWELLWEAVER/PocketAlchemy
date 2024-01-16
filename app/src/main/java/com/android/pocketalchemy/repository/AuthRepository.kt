@@ -7,6 +7,8 @@ import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.components.ViewModelComponent
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @Module
@@ -16,16 +18,12 @@ class AuthRepository @Inject constructor(
 ) {
 
     /**
-     * Returns a non-null user id string
+     * Returns user id string
      */
     fun getUserIdString(): String? {
         return auth.currentUser?.uid
     }
 
-    /**
-    * Returns current firebase user object.
-    * NOTE: Not safe in LoginScreen!!!
-    */
     fun getUser(): FirebaseUser {
         return auth.currentUser!!
     }
@@ -33,22 +31,25 @@ class AuthRepository @Inject constructor(
     /**
      * Perform anonymous sign-in request
      * @param onSuccess callback for navigating to default landing page (RecipeListScreen)
-     * @param onFailure callback for navigating to login error screen TODO: make error login screen
+     * @param onFailure callback for navigating to login error screen
      */
     fun signInAnonymousUser(
         onSuccess: () -> Unit,
         onFailure: () -> Unit,
+        coroutineScope: CoroutineScope,
     ) {
-        auth.signInAnonymously()
-            .addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    Log.d(TAG, "Anonymous sign in completed successfully.")
-                    onSuccess()
-                } else {
-                    Log.w(TAG, "Anonymous sign in failed...")
-                    onFailure()
+        coroutineScope.launch {
+            auth.signInAnonymously()
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Log.d(TAG, "Anonymous sign in completed successfully.")
+                        onSuccess()
+                    } else {
+                        Log.w(TAG, "Anonymous sign in failed...")
+                        onFailure()
+                    }
                 }
-            }
+        }
     }
 
     companion object {

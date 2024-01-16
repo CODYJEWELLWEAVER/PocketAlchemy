@@ -7,8 +7,8 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.android.pocketalchemy.repository.AuthRepository
 import com.android.pocketalchemy.model.Recipe
+import com.android.pocketalchemy.repository.AuthRepository
 import com.android.pocketalchemy.repository.RecipeRepository
 import com.google.firebase.firestore.toObject
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,13 +33,14 @@ class EditRecipeViewModel @Inject constructor(
     /**
      * Retrieves auth user id
      */
-    private val userId: String?
-        get() = authRepository.getUserIdString()
+    private val userId: String
+        get() = authRepository.getUserIdString() ?: ""
 
     /**
      * ui state model for EditRecipeScreen
      */
-    private var _recipeState: MutableState<Recipe> = mutableStateOf(Recipe(userId = userId, id = recipeId))
+    private var _recipeState: MutableState<Recipe>
+        = mutableStateOf(Recipe(userId = userId, id = recipeId ?: ""))
     /**
      * public accessor for ui state model
      */
@@ -91,7 +92,7 @@ class EditRecipeViewModel @Inject constructor(
      * Updates ui state model
      */
     fun updateRecipeState(recipe: Recipe) {
-        _recipeState.value = recipe.copy(id = recipeId)
+        _recipeState.value = recipe.copy(id = recipeId ?: "")
     }
 
     /**

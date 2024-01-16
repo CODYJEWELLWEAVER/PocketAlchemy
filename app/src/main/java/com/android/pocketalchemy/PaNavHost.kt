@@ -3,6 +3,7 @@ package com.android.pocketalchemy
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.NavType
@@ -25,6 +26,7 @@ fun PaNavHost(
     authRepository: AuthRepository
 ) {
     val navController = rememberNavController()
+    val coroutineScope = rememberCoroutineScope()
 
     NavHost(navController, startDestination = "loginScreen") {
         composable("loginScreen") {
@@ -35,7 +37,8 @@ fun PaNavHost(
                     },
                     onFailure = {
                         navController.navigateAndPopAll("errOnLoginScreen")
-                    }
+                    },
+                    coroutineScope
                 )
             }
         }

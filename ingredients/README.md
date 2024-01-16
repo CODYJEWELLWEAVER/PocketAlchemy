@@ -37,37 +37,37 @@ ingredient: dict {
     "category": str,
     "calories": {
         "unit": str, # kcal
-        "amount": int,
+        "amount": double,
     },
     "protein": {
         "unit": str,
-        "amount": int,
+        "amount": double,
     },
     "fat": {
         "unit": str,
-        "amount": int,
+        "amount": double,
     },
     "carbs": {
         "unit": str,
-        "amount": int,
+        "amount": double,
     },
     "fiber": {
         "unit": str,
-        "amount": int,
+        "amount": double,
     },
     "sodium": {
         "unit": str,
-        "amount": int,
+        "amount": double,
     },
     "sugars": {
         "unit": str,
-        "amount": int,
+        "amount": double,
     },
     "measures": [
         measure: dict { 
             "unit": str,
-            "value": int,
-            "gWeight": int, # gram weight
+            "value": double,
+            "gWeight": double, # gram weight
         },
         ...
     ]

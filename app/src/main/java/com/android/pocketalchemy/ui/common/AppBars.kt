@@ -51,8 +51,8 @@ fun PaTopAppBar(
 fun PaNavBar(
     navController: NavController,
     isRecipeListSelected: Boolean = false,
-    isIngredientsSelected: Boolean = false,
-    isNutritionSelected: Boolean = false,
+    isShoppingListsSelected: Boolean = false,
+    isIngredientsSelected: Boolean = false
 ) {
     NavigationBar(
         containerColor = MaterialTheme.colorScheme.primaryContainer,
@@ -75,8 +75,8 @@ fun PaNavBar(
             },
             icon = {
                 Icon(
-                    painter = painterResource(id = R.drawable.bulleted_list),
-                    contentDescription = stringResource(R.string.bulleted_list_description)
+                    painter = painterResource(id = R.drawable.meal),
+                    contentDescription = stringResource(R.string.meal_description)
                 )
             },
             label = {
@@ -84,10 +84,10 @@ fun PaNavBar(
             },
             colors = navigationBarItemColors
         )
-        // INGREDIENT LISTS NAV ITEM
+        // SHOPPING LISTS NAV ITEM
         NavigationBarItem(
-            selected = isIngredientsSelected,
-            enabled = !isIngredientsSelected,
+            selected = isShoppingListsSelected,
+            enabled = !isShoppingListsSelected,
             onClick = { /*TODO*/ },
             icon = {
                 Icon(
@@ -97,25 +97,25 @@ fun PaNavBar(
             },
             label = {
                 Text(
-                    text = stringResource(R.string.ingredient_lists_nav_label)
+                    text = stringResource(R.string.shopping_lists_nav_label)
                 )
             },
             colors = navigationBarItemColors
         )
-        // NUTRITION NAV ITEM
+        // INGREDIENTS NAV ITEM
         NavigationBarItem(
-            selected = isNutritionSelected,
-            enabled = !isNutritionSelected,
+            selected = isIngredientsSelected,
+            enabled = !isIngredientsSelected,
             onClick = { /*TODO*/ },
             icon = {
                 Icon(
-                    painter = painterResource(id = R.drawable.balance),
-                    contentDescription = stringResource(R.string.balance_description),
+                    painter = painterResource(id = R.drawable.bulleted_list),
+                    contentDescription = stringResource(R.string.bulleted_list_description),
                 )
             },
             label = {
                 Text(
-                    text = stringResource(R.string.nutrition_nav_label)
+                    text = stringResource(R.string.ingredients_nav_label)
                 )
             },
             colors = navigationBarItemColors

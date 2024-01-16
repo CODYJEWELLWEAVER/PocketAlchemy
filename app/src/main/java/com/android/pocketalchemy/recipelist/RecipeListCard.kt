@@ -12,13 +12,12 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
@@ -26,15 +25,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.android.pocketalchemy.R
 import com.android.pocketalchemy.model.Recipe
-import com.android.pocketalchemy.model.getIconDescRes
-import com.android.pocketalchemy.model.getIconRes
 
 // Max number of lines of text for recipe descriptions.
-private const val MAX_DETAIL_LINES = 7
+private const val MAX_DESCRIPTION_LINES = 3
 // Max number of lines of ingredients.
 // One less that MAX_DETAIL_LINES to account for
-// ingredient list label.
-private const val MAX_INGREDIENT_LINES = MAX_DETAIL_LINES - 1
 
 /**
  * Displays a recipe's highlights and overview.
@@ -59,109 +54,93 @@ fun RecipeListCard(
     ) {
         Column(
             modifier = Modifier
-                .padding(16.dp)
+                .padding(8.dp)
                 .fillMaxWidth(1f)
         ) {
-            //////////////////
-            // Icon and Title:
-            //////////////////
-            Row (
-                modifier = Modifier.padding(8.dp)
-            ) {
-                //////////////////
-                // Recipe icon
-                //////////////////
-                Icon(
-                    painter = painterResource(id = recipe.getIconRes()),
-                    contentDescription = stringResource(id = recipe.getIconDescRes()),
-                    modifier = Modifier.fillMaxWidth(.3f),
+            val coroutineScope = rememberCoroutineScope()
+
+            // Title
+            Row {
+                ///////////////
+                // Recipe title
+                ///////////////
+                Text(
+                    text = recipe.title,
+                    style = MaterialTheme.typography.headlineLarge,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis,
                 )
-                Column {
-                    //////////////////
-                    // Recipe title
-                    //////////////////
-                    Text(
-                        text = recipe.title ?: "",
-                        modifier = Modifier
-                            .fillMaxWidth(1f)
-                            .fillMaxHeight(.6f),
-                        style = MaterialTheme.typography.headlineLarge,
-                        maxLines = 1,
-                        overflow = TextOverflow.Ellipsis,
-                    )
-                    //////////////////
-                    // Recipe subtitle
-                    //////////////////
-                    recipe.subtitle?.let {
-                        Text(
-                            text = it,
-                            modifier = Modifier
-                                .fillMaxWidth(1f)
-                                .fillMaxHeight(.4f),
-                            style = MaterialTheme.typography.titleMedium,
-                            maxLines = 1,
-                            overflow = TextOverflow.Ellipsis,
-                        )
-                    }
-                    //////////////////
-                    // kcal Per Serving
-                    //////////////////
-                    Text(
-                        text = "${recipe.kcalPerServing} Calories",
-                        fontWeight = FontWeight.Light,
-                    )
-                }
             }
 
-            ////////////////////////////////////
-            // Ingredient List and Details Row
-            ////////////////////////////////////
+            // kcal Per Serving
+            Row {
+                Text(
+                    text = "${recipe.kcalPerServing} Calories/Serving",
+                    fontWeight = FontWeight.Light,
+                )
+            }
+
+            // Est. completion time
+            Row {
+                val estimatedTime = recipe.estimatedTime
+                val estimatedTimeString = if (recipe.time == 0) {
+                    stringResource(
+                        id = R.string.estimated_recipe_time_label,
+                        estimatedTime
+                    )
+                } else {
+                    // removes label for "Instant!" recipes
+                    estimatedTime
+                }
+
+                Text(
+                    text = estimatedTimeString,
+                    fontWeight = FontWeight.Light
+                )
+            }
+
+            // number of ingredients
+            Row {
+                Text(
+                    text = stringResource(
+                        id = R.string.number_of_ingredients_label,
+                        recipe.numIngredients
+                    ),
+                    fontWeight = FontWeight.Light
+                )
+            }
+
+            // Description Row
             Row(
-                modifier = Modifier.padding(4.dp)
+                modifier = Modifier.padding(horizontal = 4.dp, vertical = 8.dp)
 
             ) {
-                //////////////////
-                // Ingredient list
-                //////////////////
-                Column (
-                    modifier = Modifier
-                        .padding(8.dp)
-                        .fillMaxWidth(.4f)
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.ingredient_list_label),
-                        modifier = Modifier.align(Alignment.CenterHorizontally),
-                        fontWeight = FontWeight.Bold,
-                    )
-                }
-                Box(
-                    // This box is used to draw outline around recipe description.
-                    modifier = Modifier
-                        .border(
-                            BorderStroke(1.dp, MaterialTheme.colorScheme.onBackground),
-                            shape = RoundedCornerShape(16.dp)
-                        )
-                        .padding(8.dp)
-                        .fillMaxHeight(1f)
-                ) {
-                    //////////////////
-                    // Recipe details
-                    //////////////////
-                    Column (
+                recipe.description?.let{ recipeDescription ->
+                    Box(
+                        // This box is used to draw outline around recipe description.
                         modifier = Modifier
-                            .fillMaxWidth(1f)
-                            .padding(horizontal = 16.dp, vertical = 8.dp)
+                            .border(
+                                BorderStroke(1.dp, MaterialTheme.colorScheme.onBackground),
+                                shape = RoundedCornerShape(16.dp)
+                            )
+                            .padding(8.dp)
+                            .fillMaxHeight(1f)
                     ) {
-                        Text(text = "\t${recipe.description}",
-                            modifier = Modifier.align(Alignment.CenterHorizontally),
-                            fontSize = 17.sp,
-                            style = MaterialTheme.typography.titleMedium,
-                            maxLines = MAX_DETAIL_LINES,
-                            overflow = TextOverflow.Ellipsis,
-                        )
+                        Column (
+                            modifier = Modifier
+                                .fillMaxWidth(1f)
+                                .padding(horizontal = 16.dp, vertical = 8.dp)
+                        ) {
+                            Text(text = "\t${recipeDescription}",
+                                modifier = Modifier.align(Alignment.CenterHorizontally),
+                                fontSize = 17.sp,
+                                style = MaterialTheme.typography.titleMedium,
+                                maxLines = MAX_DESCRIPTION_LINES,
+                                overflow = TextOverflow.Ellipsis,
+                            )
+                        }
                     }
                 }
-
             }
         }
     }

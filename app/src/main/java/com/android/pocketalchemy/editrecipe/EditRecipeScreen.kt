@@ -9,8 +9,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
@@ -18,14 +16,11 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.android.pocketalchemy.R
 import com.android.pocketalchemy.model.Recipe
-import com.android.pocketalchemy.model.getIconDescRes
-import com.android.pocketalchemy.model.getIconRes
 import com.android.pocketalchemy.ui.common.PaNavBar
 import com.android.pocketalchemy.ui.common.PaTopAppBar
 
@@ -68,22 +63,13 @@ fun EditRecipeScreen(
                 ////////////////////////////
                 // Recipe Title and subtitle
                 ////////////////////////////
-                Column(
-                    modifier = Modifier
-                        .fillMaxWidth(.75f)
-                        .height(TITLE_ROW_HEIGHT.dp)
-                ) {
+                Column {
                     // Title
                     OutlinedTextField(
-                        value = recipe.title ?: "",
+                        value = recipe.title,
                         onValueChange = {
-                            val title = if (it == "") {
-                                null
-                            } else {
-                                it
-                            }
                             editRecipeViewModel.updateRecipeState(
-                                recipe.copy(title = title)
+                                recipe.copy(title = it)
                             )
                         },
                         label = {
@@ -95,43 +81,6 @@ fun EditRecipeScreen(
                         textStyle = MaterialTheme.typography.headlineMedium,
                         maxLines = 1,
                     )
-                    // Subtitle
-                    OutlinedTextField(
-                        value = recipe.subtitle ?: "",
-                        onValueChange = {
-                            val subtitle = if (it == "") {
-                                null
-                            } else {
-                                it
-                            }
-                            editRecipeViewModel.updateRecipeState(
-                                recipe.copy(subtitle = subtitle)
-                            )
-                        },
-                        label = {
-                            Text(
-                                text = stringResource(id = R.string.recipe_subtitle_label),
-                            )
-                        },
-                        maxLines = 1,
-                    )
-                }
-
-                //////////////
-                // Recipe Icon
-                //////////////
-                Column(
-                    modifier = Modifier.height(TITLE_ROW_HEIGHT.dp)
-                ) {
-                    IconButton(
-                        modifier = Modifier.fillMaxSize(1f),
-                        onClick = { /*TODO: ICON SELECTOR*/ }
-                    ) {
-                        Icon(
-                            painter = painterResource(id = recipe.getIconRes()),
-                            contentDescription = stringResource(id = recipe.getIconDescRes())
-                        )
-                    }
                 }
             }
 

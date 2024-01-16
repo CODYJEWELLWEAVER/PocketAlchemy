@@ -13,7 +13,7 @@
         android:supportsRtl="true"
         android:theme="@android:style/Theme.DeviceDefault.NoActionBar"
         tools:targetApi="34"
-        android:usesCleartextTraffic="false">
+        android:usesCleartextTraffic="true"> <!-- ONLY FOR EMULATOR USE -->
         <activity
             android:name=".MainActivity"
             android:exported="true">

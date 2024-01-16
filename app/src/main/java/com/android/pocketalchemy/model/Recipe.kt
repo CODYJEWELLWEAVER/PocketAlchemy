@@ -13,7 +13,7 @@ import com.google.firebase.firestore.IgnoreExtraProperties
 @IgnoreExtraProperties
 @Keep
 data class Recipe(
-    @DocumentId val id: String = "",
+    @DocumentId val id: String? = null,
     val userId: String = "",
     val title: String = "",
     val kcalPerServing: Int = 0,

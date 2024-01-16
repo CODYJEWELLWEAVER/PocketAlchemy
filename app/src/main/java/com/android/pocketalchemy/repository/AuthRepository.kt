@@ -8,6 +8,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.components.ViewModelComponent
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -32,13 +33,16 @@ class AuthRepository @Inject constructor(
      * Perform anonymous sign-in request
      * @param onSuccess callback for navigating to default landing page (RecipeListScreen)
      * @param onFailure callback for navigating to login error screen
+     * @param coroutineScope coroutine scope to run sign in request in
      */
     fun signInAnonymousUser(
         onSuccess: () -> Unit,
         onFailure: () -> Unit,
         coroutineScope: CoroutineScope,
     ) {
-        coroutineScope.launch {
+        coroutineScope.launch (
+            Dispatchers.IO
+        ){
             auth.signInAnonymously()
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {

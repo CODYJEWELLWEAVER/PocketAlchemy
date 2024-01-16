@@ -35,7 +35,7 @@ android {
             isMinifyEnabled = false
             isDebuggable = true
             isDefault = true
-            buildConfigField("Boolean", "DEBUG", "true")
+            buildConfigField("Boolean", "DEBUG", "false")
         }
 
         release {

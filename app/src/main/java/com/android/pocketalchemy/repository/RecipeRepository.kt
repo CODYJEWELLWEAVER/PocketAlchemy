@@ -53,6 +53,7 @@ class RecipeRepository @Inject constructor(
      * @param recipe Recipe object to insert into collection
      */
     fun insertRecipe(recipe: Recipe) {
+        Log.d(TAG, recipe.id.toString())
         recipe.id?.let { id ->
             firestore.collection(RECIPE_COLLECTION).document(id)
                 .set(recipe)

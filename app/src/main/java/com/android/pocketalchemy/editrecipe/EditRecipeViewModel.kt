@@ -12,6 +12,7 @@ import com.android.pocketalchemy.repository.AuthRepository
 import com.android.pocketalchemy.repository.RecipeRepository
 import com.google.firebase.firestore.toObject
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -40,7 +41,7 @@ class EditRecipeViewModel @Inject constructor(
      * ui state model for EditRecipeScreen
      */
     private var _recipeState: MutableState<Recipe>
-        = mutableStateOf(Recipe(userId = userId, id = recipeId ?: ""))
+        = mutableStateOf(Recipe(userId = userId, id = recipeId))
     /**
      * public accessor for ui state model
      */
@@ -55,9 +56,13 @@ class EditRecipeViewModel @Inject constructor(
     fun setRecipeId(recipeId: String?) {
         // no effect if already set
         if (this.recipeId == null) {
-            val recipeDoc = recipeRepository.getRecipe(recipeId)
-            savedStateHandle[EDIT_RECIPE_ID_KEY] = recipeDoc.id
-            getRecipeSnapshot()
+            viewModelScope.launch(
+                Dispatchers.IO
+            ) {
+                val recipeDoc = recipeRepository.getRecipe(recipeId)
+                savedStateHandle[EDIT_RECIPE_ID_KEY] = recipeDoc.id
+                getRecipeSnapshot()
+            }
         }
     }
 
@@ -74,7 +79,6 @@ class EditRecipeViewModel @Inject constructor(
      * content when request completes.
      */
     private fun getRecipeSnapshot() {
-        Log.d(TAG, "getRecipeSnapshot")
         val recipeDoc = recipeRepository.getRecipe(recipeId)
 
         recipeDoc.get()
@@ -92,7 +96,9 @@ class EditRecipeViewModel @Inject constructor(
      * Updates ui state model
      */
     fun updateRecipeState(recipe: Recipe) {
-        _recipeState.value = recipe.copy(id = recipeId ?: "")
+        viewModelScope.launch {
+            _recipeState.value = recipe.copy(id = recipeId)
+        }
     }
 
     /**
@@ -100,7 +106,9 @@ class EditRecipeViewModel @Inject constructor(
      */
     fun saveRecipe() {
         // TODO: Check no required fields are empty!!!
-        viewModelScope.launch {
+        viewModelScope.launch(
+            Dispatchers.IO
+        ) {
             recipeRepository.insertRecipe(recipeState.value)
             clearRecipeId()
         }

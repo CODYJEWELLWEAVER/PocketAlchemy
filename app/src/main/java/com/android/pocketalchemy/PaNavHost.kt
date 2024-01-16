@@ -38,7 +38,7 @@ fun PaNavHost(
                     onFailure = {
                         navController.navigateAndPopAll("errOnLoginScreen")
                     },
-                    coroutineScope
+                    coroutineScope = coroutineScope
                 )
             }
         }

@@ -41,10 +41,11 @@ def extract_ingredients(jsonData) -> list[dict]:
         food_portions = food.get("foodPortions")
         for food_portion in food_portions:
             measure = {}
-            measure[MEASURE_VALUE_KEY] = food_portion.get("value")
+            measure_value = food_portion.get("value")
             measure[MEASURE_UNIT_KEY] = food_portion.get("measureUnit").get("abbreviation")
-            measure[MEASURE_GWEIGHT_KEY] = food_portion.get("gramWeight")
-            if measure[MEASURE_UNIT_KEY] != "undetermined" and measure[MEASURE_VALUE_KEY] != None:
+            if measure[MEASURE_UNIT_KEY] != "undetermined" and measure_value != None:
+                measure[MEASURE_VALUE_KEY] = measure_value / measure_value
+                measure[MEASURE_GWEIGHT_KEY] = round(food_portion.get("gramWeight") / measure_value, 4)
                 measures.append(measure)
 
         # get nutrient data 
@@ -330,10 +331,13 @@ Generates list of keywords for ingredient description.
 def generate_keywords(description: str) -> list[str]:
     description_words = description.lower().split(", ")
     keywords = []
-    # gen keywords starting with first and second chars in desc
-    for word in description_words:
-        for i in range(0,2):
-            for j in range(i, len(word)):
-                keywords.append(word[i:j+1])
-
+    in_order_description = " ".join(description_words[:4])
+    for i in range(0,2):
+        for j in range(i, len(in_order_description)):
+            keywords.append(in_order_description[i:j+1])
+# reverse first two words of description and create key words
+    reversed_description = " ".join(reversed(description_words[:2]))
+    for i in range(0,2):
+        for j in range(i, len(reversed_description)):
+            keywords.append(reversed_description[i:j+1])
     return keywords

@@ -15,15 +15,9 @@ import javax.inject.Inject
 class RecipeListViewModel @Inject constructor(
     private val recipeRepository: RecipeRepository,
 ) : ViewModel() {
-
     /**
      * Retrieves a flow of current users recipes
      */
     val recipes: Flow<List<Recipe>>
         get() = recipeRepository.getUserRecipeList()
-
 }
-
-
-
-

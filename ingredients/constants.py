@@ -125,7 +125,8 @@ MEAT_PATTERNS = [
     ", all classes",
     ", prepackaged or deli",
     ", includes Spam Lite",
-    r",.heated[^,]*"
+    r",.heated[^,]*",
+    ", broiler or fryers",
 ]
 
 BEVERAGE_PATTERNS = [

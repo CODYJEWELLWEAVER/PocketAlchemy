@@ -67,7 +67,7 @@ fun PaNavHost(
             val recipeIdArg = remember { backStackEntry.arguments?.getString("recipeId") }
 
             LaunchedEffect(recipeIdArg) {
-                editRecipeViewModel.setRecipeId(recipeIdArg)
+                editRecipeViewModel.setRecipe(recipeIdArg)
             }
 
             EditRecipeScreen(

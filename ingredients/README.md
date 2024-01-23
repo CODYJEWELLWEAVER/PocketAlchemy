@@ -28,7 +28,7 @@ ingredient database.
     * final/ _- fully processed and validated datasets (batched)_
 
 ### Ingredient Schema
-The complete description of the ingredient data uploaded to firestore is as follows:
+The model of the ingredient data uploaded to firestore is as follows:
 ``` python
 ingredient: dict {
     "description": str,
@@ -37,37 +37,37 @@ ingredient: dict {
     "category": str,
     "calories": {
         "unit": str, # kcal
-        "amount": double,
+        "amount": float,
     },
     "protein": {
         "unit": str,
-        "amount": double,
+        "amount": float,
     },
     "fat": {
         "unit": str,
-        "amount": double,
+        "amount": float,
     },
     "carbs": {
         "unit": str,
-        "amount": double,
+        "amount": float,
     },
     "fiber": {
         "unit": str,
-        "amount": double,
+        "amount": float,
     },
     "sodium": {
         "unit": str,
-        "amount": double,
+        "amount": float,
     },
     "sugars": {
         "unit": str,
-        "amount": double,
+        "amount": float,
     },
     "measures": [
         measure: dict { 
             "unit": str,
-            "value": double,
-            "gWeight": double, # gram weight
+            "value": float, # normalized to 1
+            "gWeight": float, # gram weight
         },
         ...
     ]

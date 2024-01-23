@@ -1,5 +1,6 @@
 package com.android.pocketalchemy.editrecipe
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -15,6 +16,7 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
@@ -40,8 +42,8 @@ fun EditRecipeScreen(
     editRecipeViewModel: EditRecipeViewModel
 ) {
     val appBarTitle = R.string.edit_recipe_title
-    val recipeState: State<Recipe> = editRecipeViewModel.recipeState
-    val recipe = recipeState.value
+    val editRecipeUiState: State<EditRecipeUiState>
+        = editRecipeViewModel.editRecipeUiState.collectAsState()
 
     Scaffold(
         contentColor = MaterialTheme.colorScheme.onBackground,
@@ -56,11 +58,13 @@ fun EditRecipeScreen(
         Column(
             modifier = Modifier.padding(scaffoldPadding)
         ) {
+            val recipe = editRecipeUiState.value.recipe
+
             TitleField(
                 recipe = recipe,
                 onUpdate = {
-                    editRecipeViewModel.updateRecipeState(
-                        recipe.copy(title = it)
+                    editRecipeViewModel.updateUiState(
+                        recipe = recipe.copy(title = it)
                     )
                 }
             )
@@ -68,15 +72,18 @@ fun EditRecipeScreen(
             DescriptionField(
                 recipe = recipe,
                 onUpdate = {
-                    editRecipeViewModel.updateRecipeState(
-                        recipe.copy(description = it)
+                    editRecipeViewModel.updateUiState(
+                        recipe = recipe.copy(description = it)
                     )
                 }
             )
 
             Row( // Ingredients
 
-            ) { /* TODO: */ }
+            ) { /* TODO: */
+                val ingredients = editRecipeUiState.value.ingredients
+                Log.d(TAG, ingredients.toString())
+            }
 
             Row( // Recipe Instructions
 
@@ -106,8 +113,6 @@ fun EditRecipeScreen(
 
 /**
  * Draws title field and requests updates from view model.
- * @param recipe
- * @param onUpdate
  */
 @Composable
 private fun TitleField(
@@ -137,8 +142,6 @@ private fun TitleField(
 
 /**
  * Draws description field and requests updates from view model.
- * @param recipe
- * @param onUpdate
  */
 @Composable
 private fun DescriptionField(

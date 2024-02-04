@@ -19,6 +19,7 @@
     <string name="go_back_button_label">Go Back</string>
     <string name="choose_icon_label">Choose Icon</string>
     <string name="recipe_description_label">Description</string>
+    <string name="ingredients_label">Ingredients:</string>
 
     // Recipe card resources.
     <string name="ingredient_list_label">Ingredients</string>
@@ -38,4 +39,5 @@
     <string name="bulleted_list_description">Image of list.</string>
     <string name="shopping_cart_description">Image of shopping cart.</string>
     <string name="meal_description">Icon of a meal.</string>
+    <string name="plus_description">Icon of a plus sign.</string>
 </resources>

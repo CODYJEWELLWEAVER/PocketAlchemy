@@ -6,9 +6,15 @@ import com.android.pocketalchemy.model.Recipe
 import com.google.firebase.firestore.DocumentReference
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.dataObjects
+import com.google.firebase.firestore.toObject
 import dagger.hilt.android.scopes.ViewModelScoped
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
+
+private const val TAG = "RecipeRepository"
 
 /**
  * Repository for accessing recipe collection.
@@ -20,16 +26,20 @@ class RecipeRepository @Inject constructor(
     private val firestore: FirebaseFirestore,
     private val authRepository: AuthRepository
 ) {
-
+    private val ioDispatcher = Dispatchers.IO
     /**
-     * Returns a flow of current user's recipes.
+     * Returns a flow of current user's recipes, if
+     * user is not logged in returns empty flow.
      */
-    fun getUserRecipeList(): Flow<List<Recipe>> {
+    fun getUserRecipeList(): Flow<List<Recipe>>  {
         val user = authRepository.getUser()
-        return firestore.collection(RECIPE_COLLECTION)
+        return if (user != null) {
+            firestore.collection(RECIPE_COLLECTION)
                 .whereEqualTo(Recipe.USER_ID_FIELD, user.uid)
                 .dataObjects<Recipe>()
-
+        } else {
+            emptyFlow()
+        }
     }
 
     /**
@@ -37,7 +47,7 @@ class RecipeRepository @Inject constructor(
      * creates a new document if recipeId is null.
      * @param recipeId recipeId to retrieve or null for document creation
      */
-    fun getRecipe(recipeId: String?): DocumentReference {
+    fun getRecipeDocRef(recipeId: String?): DocumentReference {
         Log.d(TAG, "get recipe with $recipeId")
         return if (recipeId == null) {
             // Creates new document ref
@@ -46,6 +56,18 @@ class RecipeRepository @Inject constructor(
             // Return existing document ref
             firestore.collection(RECIPE_COLLECTION).document("$recipeId")
         }
+    }
+
+    /**
+     * Retrieves Recipe model object for a doc ref.
+     * @param recipeDoc
+     */
+    suspend fun getRecipe(
+        recipeDoc: DocumentReference
+    ): Recipe? {
+        return recipeDoc.get()
+            .await()
+            .toObject<Recipe>()
     }
 
     /**
@@ -64,9 +86,5 @@ class RecipeRepository @Inject constructor(
                     Log.w(TAG, "Could not insert recipe. Exception: $it")
                 }
         }
-    }
-
-    companion object {
-        private const val TAG = "RecipeRepository"
     }
 }

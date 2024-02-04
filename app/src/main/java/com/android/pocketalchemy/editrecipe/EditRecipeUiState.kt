@@ -8,5 +8,5 @@ import com.android.pocketalchemy.model.RecipeIngredient
  */
 data class EditRecipeUiState(
     var recipe: Recipe,
-    val ingredients: List<RecipeIngredient>
+    val ingredients: List<RecipeIngredient>,
 )

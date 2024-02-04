@@ -25,8 +25,11 @@ class AuthRepository @Inject constructor(
         return auth.currentUser?.uid
     }
 
-    fun getUser(): FirebaseUser {
-        return auth.currentUser!!
+    /**
+     * Gets current user or null.
+     */
+    fun getUser(): FirebaseUser? {
+        return auth.currentUser
     }
 
     /**

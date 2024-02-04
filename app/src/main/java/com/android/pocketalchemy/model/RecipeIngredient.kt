@@ -28,7 +28,10 @@ data class RecipeIngredient(
             val splitDescription = description.split(", ")
             val nameWords = mutableListOf<String>()
             for (i in 0..<4) {
-                nameWords.add(splitDescription[i])
+                val descWords = splitDescription.size
+                if (i < descWords) {
+                    nameWords.add(splitDescription[i])
+                }
             }
             if (splitDescription.size > 4) {
                 nameWords.add("...")

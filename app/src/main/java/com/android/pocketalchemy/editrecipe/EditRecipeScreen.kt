@@ -8,21 +8,32 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.heightIn
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.android.pocketalchemy.R
 import com.android.pocketalchemy.model.Recipe
+import com.android.pocketalchemy.model.RecipeIngredient
 import com.android.pocketalchemy.ui.common.PaNavBar
 import com.android.pocketalchemy.ui.common.PaTopAppBar
 
@@ -34,7 +45,8 @@ private const val MAX_DESCRIPTION_HEIGHT = 100
 /**
  * Screen for creating and editing recipes.
  * @param navController NavController for current NavHost
- * @param editRecipeViewModel EditRecipeViewModel - should be initialized with setRecipeId()
+ * @param editRecipeViewModel EditRecipeViewModel - should be initialized with
+ * [EditRecipeViewModel.setRecipe]
  */
 @Composable
 fun EditRecipeScreen(
@@ -58,54 +70,67 @@ fun EditRecipeScreen(
         Column(
             modifier = Modifier.padding(scaffoldPadding)
         ) {
-            val recipe = editRecipeUiState.value.recipe
-
-            TitleField(
-                recipe = recipe,
-                onUpdate = {
-                    editRecipeViewModel.updateUiState(
-                        recipe = recipe.copy(title = it)
-                    )
+            if (editRecipeViewModel.isLoading) {
+                Surface(
+                    color = MaterialTheme.colorScheme.background,
+                    contentColor = MaterialTheme.colorScheme.onBackground,
+                    modifier = Modifier.fillMaxSize(1f)
+                ) {
+                    Box {
+                        CircularProgressIndicator(
+                            modifier = Modifier.align(Alignment.Center)
+                        )
+                    }
                 }
-            )
+            } else {
+                val recipe = editRecipeUiState.value.recipe
 
-            DescriptionField(
-                recipe = recipe,
-                onUpdate = {
-                    editRecipeViewModel.updateUiState(
-                        recipe = recipe.copy(description = it)
-                    )
-                }
-            )
-
-            Row( // Ingredients
-
-            ) { /* TODO: */
-                val ingredients = editRecipeUiState.value.ingredients
-                Log.d(TAG, ingredients.toString())
-            }
-
-            Row( // Recipe Instructions
-
-            ) { /* TODO: */ }
-
-            // Cancel and Save buttons
-            Row(
-                modifier = Modifier.padding(4.dp)
-            ) {
-                SaveButton(
-                    onClick = {
-                        editRecipeViewModel.saveRecipe()
-                        navController.popBackStack()
+                TitleField(
+                    recipe = recipe,
+                    onUpdate = {
+                        editRecipeViewModel.updateUiState(
+                            recipe = recipe.copy(title = it)
+                        )
                     }
                 )
 
-                BackButton(
-                    onClick = {
-                        editRecipeViewModel.clearRecipeId()
-                        navController.popBackStack()
+                DescriptionField(
+                    recipe = recipe,
+                    onUpdate = {
+                        editRecipeViewModel.updateUiState(
+                            recipe = recipe.copy(description = it)
+                        )
                     }
                 )
+
+                Row { /* TODO: */
+                    val ingredients = editRecipeUiState.value.ingredients
+                    Log.d(TAG, ingredients.toString())
+                    IngredientsField(ingredients)
+                }
+
+                Row( // Recipe Instructions
+
+                ) { /* TODO: */ }
+
+                // Cancel and Save buttons
+                Row(
+                    modifier = Modifier.padding(4.dp)
+                ) {
+                    SaveButton(
+                        onClick = {
+                            editRecipeViewModel.saveRecipe()
+                            navController.popBackStack()
+                        }
+                    )
+
+                    BackButton(
+                        onClick = {
+                            editRecipeViewModel.clearRecipeId()
+                            navController.popBackStack()
+                        }
+                    )
+                }
             }
         }
     }
@@ -141,7 +166,7 @@ private fun TitleField(
 }
 
 /**
- * Draws description field and requests updates from view model.
+ * Draws description field and requests updates to state from view model.
  */
 @Composable
 private fun DescriptionField(
@@ -173,6 +198,54 @@ private fun DescriptionField(
             textStyle = MaterialTheme.typography.bodyLarge,
             modifier = Modifier.fillMaxSize(1f)
         )
+    }
+}
+
+@Composable
+fun IngredientsField(
+    ingredients: List<RecipeIngredient>
+) {
+    Column (
+        Modifier
+            .padding(8.dp)
+            .fillMaxWidth(1f)
+    ){
+        Row {
+            Column(
+                modifier = Modifier.align(Alignment.CenterVertically)
+            ) {
+                Text(
+                    text = stringResource(id = R.string.ingredients_label),
+                    modifier = Modifier.align(Alignment.Start),
+                    textAlign = TextAlign.Center,
+                    style = MaterialTheme.typography.displayLarge,
+                    fontSize = 24.sp,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+            Column (
+                modifier = Modifier.align(Alignment.CenterVertically)
+            ) {
+                IconButton(
+                    onClick = { /*TODO*/ },
+                ) {
+                    Icon(
+                        painter = painterResource(id = R.drawable.plus),
+                        contentDescription = stringResource(id = R.string.plus_description)
+                    )
+                }
+            }
+        }
+
+        Row {
+            LazyColumn(userScrollEnabled = false) {
+                for (ingredient in ingredients) {
+                    item {
+
+                    }
+                }
+            }
+        }
     }
 }
 

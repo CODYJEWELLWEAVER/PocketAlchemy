@@ -18,8 +18,14 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.android.pocketalchemy.R
 
+/**
+ * Displays error message to user on background surface
+ * when authentication has failed.
+ * @param onNavigateToLoginScreen callback used to navigate
+ * back to [LoginScreen]
+ */
 @Composable
-fun ErrOnLoginScreen(
+fun ErrorOnLoginScreen(
     onNavigateToLoginScreen: () -> Unit
 ) {
     Surface(

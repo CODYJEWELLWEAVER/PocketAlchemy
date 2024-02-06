@@ -38,6 +38,11 @@ fun RecipeList(
     }
 }
 
+/**
+ * Scrollable column of user's recipes.
+ * @param recipeList current user's recipe list
+ * @param onNavigateToEditRecipe callback to open clicked recipe
+ */
 @Composable
 fun RecipeListColumn(
     recipeList: List<Recipe>,
@@ -59,6 +64,9 @@ fun RecipeListColumn(
     }
 }
 
+/**
+ * Loading progress indicator.
+ */
 @Composable
 fun LoadingRecipesIndicator() {
     Surface(

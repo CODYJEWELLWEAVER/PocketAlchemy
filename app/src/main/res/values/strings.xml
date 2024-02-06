@@ -3,6 +3,7 @@
 
     // App bar titles.
     <string name="edit_recipe_title">Edit Recipe</string>
+    <string name="select_ingredient_title">Select Ingredient</string>
 
     // Login screen labels.
     <string name="guest_login_label">continue as guest</string>\
@@ -20,6 +21,8 @@
     <string name="choose_icon_label">Choose Icon</string>
     <string name="recipe_description_label">Description</string>
     <string name="ingredients_label">Ingredients:</string>
+    // Select ingredient labels
+    <string name="select_ingredient_back_button_label">Back</string>
 
     // Recipe card resources.
     <string name="ingredient_list_label">Ingredients</string>

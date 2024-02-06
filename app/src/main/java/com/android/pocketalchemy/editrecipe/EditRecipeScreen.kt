@@ -1,6 +1,6 @@
 package com.android.pocketalchemy.editrecipe
 
-import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -22,6 +22,8 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -84,6 +86,7 @@ fun EditRecipeScreen(
                 }
             } else {
                 val recipe = editRecipeUiState.value.recipe
+                var showSelectIngredientPopUp = remember { mutableStateOf(false) }
 
                 TitleField(
                     recipe = recipe,
@@ -105,8 +108,9 @@ fun EditRecipeScreen(
 
                 Row { /* TODO: */
                     val ingredients = editRecipeUiState.value.ingredients
-                    Log.d(TAG, ingredients.toString())
-                    IngredientsField(ingredients)
+                    IngredientsField(ingredients) {
+                        showSelectIngredientPopUp.value = true
+                    }
                 }
 
                 Row( // Recipe Instructions
@@ -130,6 +134,20 @@ fun EditRecipeScreen(
                             navController.popBackStack()
                         }
                     )
+                }
+
+                if (showSelectIngredientPopUp.value) {
+                    SelectIngredient {
+                        showSelectIngredientPopUp.value = false
+                    }
+                }
+
+                BackHandler {
+                    if (showSelectIngredientPopUp.value) {
+                        showSelectIngredientPopUp.value = false
+                    } else {
+                        navController.popBackStack()
+                    }
                 }
             }
         }
@@ -203,7 +221,8 @@ private fun DescriptionField(
 
 @Composable
 fun IngredientsField(
-    ingredients: List<RecipeIngredient>
+    ingredients: List<RecipeIngredient>,
+    onClickAddIngredient: () -> Unit,
 ) {
     Column (
         Modifier
@@ -211,28 +230,32 @@ fun IngredientsField(
             .fillMaxWidth(1f)
     ){
         Row {
-            Column(
-                modifier = Modifier.align(Alignment.CenterVertically)
+            Box(
+                modifier = Modifier.fillMaxWidth(1f)
             ) {
-                Text(
-                    text = stringResource(id = R.string.ingredients_label),
-                    modifier = Modifier.align(Alignment.Start),
-                    textAlign = TextAlign.Center,
-                    style = MaterialTheme.typography.displayLarge,
-                    fontSize = 24.sp,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-            Column (
-                modifier = Modifier.align(Alignment.CenterVertically)
-            ) {
-                IconButton(
-                    onClick = { /*TODO*/ },
+                Column(
+                    modifier = Modifier.align(Alignment.CenterStart)
                 ) {
-                    Icon(
-                        painter = painterResource(id = R.drawable.plus),
-                        contentDescription = stringResource(id = R.string.plus_description)
+                    Text(
+                        text = stringResource(id = R.string.ingredients_label),
+                        modifier = Modifier.align(Alignment.Start),
+                        textAlign = TextAlign.Center,
+                        style = MaterialTheme.typography.displayLarge,
+                        fontSize = 24.sp,
+                        fontWeight = FontWeight.Bold
                     )
+                }
+                Column (
+                    modifier = Modifier.align(Alignment.CenterEnd)
+                ) {
+                    IconButton(
+                        onClick = onClickAddIngredient,
+                    ) {
+                        Icon(
+                            painter = painterResource(id = R.drawable.plus),
+                            contentDescription = stringResource(id = R.string.plus_description)
+                        )
+                    }
                 }
             }
         }

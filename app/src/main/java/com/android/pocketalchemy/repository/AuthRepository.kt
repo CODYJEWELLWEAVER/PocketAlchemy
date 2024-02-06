@@ -8,7 +8,6 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.android.components.ViewModelComponent
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -43,9 +42,7 @@ class AuthRepository @Inject constructor(
         onFailure: () -> Unit,
         coroutineScope: CoroutineScope,
     ) {
-        coroutineScope.launch (
-            Dispatchers.IO
-        ){
+        coroutineScope.launch {
             auth.signInAnonymously()
                 .addOnCompleteListener { task ->
                     if (task.isSuccessful) {

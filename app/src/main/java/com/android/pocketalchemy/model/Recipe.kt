@@ -9,6 +9,7 @@ import com.google.firebase.firestore.IgnoreExtraProperties
  * @property id ID used to uniquely identify recipe document
  * @property userId ID of user who created this document
  * @property title String representing title
+ * TODO: Change date representation?
  */
 @IgnoreExtraProperties
 @Keep

@@ -7,6 +7,7 @@ import com.google.firebase.firestore.IgnoreExtraProperties
 /**
  * A lightweight representation of a
  * an ingredient in a recipe.
+ * @param recipeId ID of recipe ingredient belongs to
  * @param ingredientId
  * @param description
  * @param gramWeight
@@ -31,6 +32,8 @@ data class RecipeIngredient(
                 val descWords = splitDescription.size
                 if (i < descWords) {
                     nameWords.add(splitDescription[i])
+                } else {
+                    break
                 }
             }
             if (splitDescription.size > 4) {

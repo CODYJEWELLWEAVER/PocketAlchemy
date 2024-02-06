@@ -59,9 +59,6 @@ fun RecipeListCard(
 
             // Title
             Row {
-                ///////////////
-                // Recipe title
-                ///////////////
                 Text(
                     text = recipe.title,
                     style = MaterialTheme.typography.headlineLarge,

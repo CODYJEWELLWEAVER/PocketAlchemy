@@ -84,22 +84,33 @@ class EditRecipeViewModel @Inject constructor(
 
     /**
      * Updates the state of the recipe and its ingredients being
-     * edited.
+     * edited. Has no effect if both parameters are null.
+     * @param recipe new recipe to update UI state with
+     * @param ingredients new ingredients to update UI state with
      */
     fun updateUiState(
         recipe: Recipe? = null,
-        recipeIngredients: List<RecipeIngredient>? = null,
+        ingredients: List<RecipeIngredient>? = null,
     ) {
         viewModelScope.launch {
-            recipe?.let { newRecipe ->
+            if (recipe != null && ingredients != null) {
                 _editRecipeUiState.update {
-                    it.copy(recipe = newRecipe)
+                    it.copy(
+                        recipe = recipe,
+                        ingredients = ingredients
+                    )
                 }
-            }
+            } else {
+                recipe?.let { newRecipe ->
+                    _editRecipeUiState.update {
+                        it.copy(recipe = newRecipe)
+                    }
+                }
 
-            recipeIngredients?.let { newRecipeIngredients ->
-                _editRecipeUiState.update {
-                    it.copy(ingredients = newRecipeIngredients)
+                ingredients?.let { newIngredients ->
+                    _editRecipeUiState.update {
+                        it.copy(ingredients = newIngredients)
+                    }
                 }
             }
         }
@@ -119,7 +130,7 @@ class EditRecipeViewModel @Inject constructor(
      * @param recipeIngredient ingredient being added
      */
     fun addRecipeIngredient(recipeIngredient: RecipeIngredient) {
-        viewModelScope.launch {
+        viewModelScope.launch { // TODO: Move to default dispatcher
             val recipeIngredients = _editRecipeUiState.value.ingredients
             val ingredientIndex = recipeIngredients.indexOfFirst {
                 it.ingredientId == recipeIngredient.ingredientId
@@ -139,7 +150,7 @@ class EditRecipeViewModel @Inject constructor(
                 }
             }
             updateUiState(
-                recipeIngredients = newRecipeIngredients
+                ingredients = newRecipeIngredients
             )
         }
     }
@@ -153,7 +164,7 @@ class EditRecipeViewModel @Inject constructor(
         viewModelScope.launch {
             val recipeIngredients = _editRecipeUiState.value.ingredients
             updateUiState(
-                recipeIngredients = recipeIngredients.filter {
+                ingredients = recipeIngredients.filter {
                     it.ingredientId != recipeIngredient.id
                 }
             )

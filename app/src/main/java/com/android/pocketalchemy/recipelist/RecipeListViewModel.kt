@@ -13,7 +13,7 @@ import javax.inject.Inject
 
 /**
  * View Model For Recipe List Screen
- * @param recipeRepository Repository for recipe collection
+ * @param recipeRepository
  */
 @HiltViewModel
 class RecipeListViewModel @Inject constructor(

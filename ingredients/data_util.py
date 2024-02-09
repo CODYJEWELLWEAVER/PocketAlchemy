@@ -3,7 +3,6 @@ Helper functions for extracting and processing ingredient data.
 Contents: 
     - 
 """
-from typing import Optional
 from constants import *
 import regex
 

@@ -8,7 +8,6 @@ import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.NavigationBarItem
 import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
@@ -21,16 +20,12 @@ import com.android.pocketalchemy.R
 /**
  * Top app bar for PocketAlchemy
  * @param titleId string resource id for title
- * @param isBackButtonEnabled if back action should be shown
- * @param onClickBackButton callback for navigating back to
  * EditRecipeScreen
  */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun PaTopAppBar(
     @StringRes titleId: Int,
-    isBackButtonEnabled: Boolean = false,
-    onClickBackButton: () -> Unit = {},
 ) {
     TopAppBar(
         colors = TopAppBarDefaults.topAppBarColors(
@@ -43,18 +38,6 @@ fun PaTopAppBar(
                 text = stringResource(id = titleId)
             )
         },
-        actions = {
-            if (isBackButtonEnabled) {
-                TextButton(onClick = onClickBackButton) {
-                    Text(
-                        text = stringResource(
-                            id = R.string.select_ingredient_back_button_label
-                        ),
-                        style = MaterialTheme.typography.titleLarge
-                    )
-                }
-            }
-        }
     )
 }
 
@@ -62,8 +45,8 @@ fun PaTopAppBar(
  * Navigation bar
  * @param navController NavController for current nav host
  * @param isRecipeListSelected true if on recipe list screen.
+ * @param isShoppingListsSelected true if on shopping list screen.
  * @param isIngredientsSelected true if on ingredients screen.
- * @param isNutritionSelected true if on nutrition screen.
  */
 @Composable
 fun PaNavBar(

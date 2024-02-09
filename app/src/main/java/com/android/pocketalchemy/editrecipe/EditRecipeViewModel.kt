@@ -9,6 +9,7 @@ import com.android.pocketalchemy.repository.AuthRepository
 import com.android.pocketalchemy.repository.RecipeIngredientRepository
 import com.android.pocketalchemy.repository.RecipeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -28,6 +29,8 @@ class EditRecipeViewModel @Inject constructor(
     private val recipeIngredientRepository: RecipeIngredientRepository,
     private val authRepository: AuthRepository,
 ) : ViewModel() {
+    private val defaultDispatcher = Dispatchers.Default
+
     private var _isLoading = false
     val isLoading
         get() = _isLoading
@@ -71,10 +74,10 @@ class EditRecipeViewModel @Inject constructor(
             val recipeDocRef = recipeRepository.getRecipeDocRef(recipeId)
             savedStateHandle[EDIT_RECIPE_ID_KEY] = recipeDocRef.id
 
-            // sets initial recipe details
+            // gets initial recipe details
             val recipe = recipeRepository.getRecipe(recipeDocRef)
 
-            // sets initial ingredient list
+            // gets initial ingredient list
             val ingredients = recipeIngredientRepository.getRecipeIngredients(recipeId.toString())
 
             updateUiState(recipe, ingredients)
@@ -130,7 +133,9 @@ class EditRecipeViewModel @Inject constructor(
      * @param recipeIngredient ingredient being added
      */
     fun addRecipeIngredient(recipeIngredient: RecipeIngredient) {
-        viewModelScope.launch { // TODO: Move to default dispatcher
+        viewModelScope.launch(
+            defaultDispatcher
+        ) {
             val recipeIngredients = _editRecipeUiState.value.ingredients
             val ingredientIndex = recipeIngredients.indexOfFirst {
                 it.ingredientId == recipeIngredient.ingredientId

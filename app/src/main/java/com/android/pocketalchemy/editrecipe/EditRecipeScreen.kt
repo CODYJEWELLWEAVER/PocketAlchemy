@@ -20,10 +20,11 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -34,6 +35,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import com.android.pocketalchemy.R
+import com.android.pocketalchemy.editrecipe.selectingredient.SelectIngredientCategory
 import com.android.pocketalchemy.model.Recipe
 import com.android.pocketalchemy.model.RecipeIngredient
 import com.android.pocketalchemy.ui.common.PaNavBar
@@ -42,6 +44,7 @@ import com.android.pocketalchemy.ui.common.PaTopAppBar
 private const val TAG = "EditRecipeScreen"
 
 // Title and Icon Row Height
+// TODO: Use WindowSizeClass to calculate max description height
 private const val MAX_DESCRIPTION_HEIGHT = 100
 
 /**
@@ -55,15 +58,14 @@ fun EditRecipeScreen(
     navController: NavController,
     editRecipeViewModel: EditRecipeViewModel
 ) {
-    val appBarTitle = R.string.edit_recipe_title
-    val editRecipeUiState: State<EditRecipeUiState>
-        = editRecipeViewModel.editRecipeUiState.collectAsState()
+    val editRecipeUiState: EditRecipeUiState
+        by editRecipeViewModel.editRecipeUiState.collectAsState()
 
     Scaffold(
         contentColor = MaterialTheme.colorScheme.onBackground,
         containerColor = MaterialTheme.colorScheme.background,
         topBar = {
-            PaTopAppBar(titleId = appBarTitle)
+            PaTopAppBar(titleId = R.string.edit_recipe_title)
         },
         bottomBar = {
             PaNavBar(navController)
@@ -85,8 +87,8 @@ fun EditRecipeScreen(
                     }
                 }
             } else {
-                val recipe = editRecipeUiState.value.recipe
-                var showSelectIngredientPopUp = remember { mutableStateOf(false) }
+                val recipe = editRecipeUiState.recipe
+                var showSelectIngredientPopUp by remember { mutableStateOf(false) }
 
                 TitleField(
                     recipe = recipe,
@@ -106,11 +108,9 @@ fun EditRecipeScreen(
                     }
                 )
 
-                Row { /* TODO: */
-                    val ingredients = editRecipeUiState.value.ingredients
-                    IngredientsField(ingredients) {
-                        showSelectIngredientPopUp.value = true
-                    }
+                val ingredients = editRecipeUiState.ingredients
+                IngredientsField(ingredients) {
+                    showSelectIngredientPopUp = true
                 }
 
                 Row( // Recipe Instructions
@@ -136,18 +136,16 @@ fun EditRecipeScreen(
                     )
                 }
 
-                if (showSelectIngredientPopUp.value) {
-                    SelectIngredient {
-                        showSelectIngredientPopUp.value = false
+                if (showSelectIngredientPopUp) {
+                    SelectIngredientCategory {
+                        showSelectIngredientPopUp = false
                     }
                 }
 
-                BackHandler {
-                    if (showSelectIngredientPopUp.value) {
-                        showSelectIngredientPopUp.value = false
-                    } else {
-                        navController.popBackStack()
-                    }
+                BackHandler(
+                    enabled = showSelectIngredientPopUp
+                ) {
+                    showSelectIngredientPopUp = false
                 }
             }
         }

@@ -6,17 +6,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
 import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.pocketalchemy.model.Recipe
+import com.android.pocketalchemy.ui.common.LoadingIndicator
 
 /**
  * Lazy Column for displaying lists of recipe cards.
@@ -28,13 +25,13 @@ fun RecipeList(
     onNavigateToEditRecipe: (String?) -> Unit,
     recipeListViewModel: RecipeListViewModel = hiltViewModel<RecipeListViewModel>()
 ) {
-    val recipeList: State<List<Recipe>>
-        = recipeListViewModel.recipeList.collectAsState(initial = emptyList())
+    val recipeList: List<Recipe>
+        by recipeListViewModel.recipeList.collectAsState()
 
-    if (recipeList.value.isNotEmpty()) {
-        RecipeListColumn(recipeList.value, onNavigateToEditRecipe)
-    } else if (recipeListViewModel.isLoading) {
-        LoadingRecipesIndicator()
+    if (!recipeListViewModel.isLoading) {
+        RecipeListColumn(recipeList, onNavigateToEditRecipe)
+    } else {
+        LoadingIndicator()
     }
 }
 
@@ -60,24 +57,6 @@ fun RecipeListColumn(
             ) {
                 RecipeListCard(recipe = it, onNavigateToEditRecipe)
             }
-        }
-    }
-}
-
-/**
- * Loading progress indicator.
- */
-@Composable
-fun LoadingRecipesIndicator() {
-    Surface(
-        color = MaterialTheme.colorScheme.background,
-        contentColor = MaterialTheme.colorScheme.onBackground,
-        modifier = Modifier.fillMaxSize(1f)
-    ) {
-        Box {
-            CircularProgressIndicator(
-                modifier = Modifier.align(Alignment.Center)
-            )
         }
     }
 }

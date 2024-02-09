@@ -150,3 +150,9 @@ fun NavController.navigateAndPopAll(route: String) {
         popUpTo(0)
     }
 }
+
+fun NavController.navigateAndPopUpTo(route: String) {
+    this.navigate(route) {
+        popUpTo(route)
+    }
+}

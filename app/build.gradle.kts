@@ -79,6 +79,7 @@ dependencies {
     val daggerVersion = "2.50"
     val lifecycleVersion = "2.6.2"
     val navigationVersion = "2.7.6"
+    val pagingVersion = "3.2.1"
 
     implementation("androidx.test:runner:1.5.2")
     implementation("androidx.core:core-ktx:1.12.0")
@@ -100,6 +101,8 @@ dependencies {
     implementation("com.google.firebase:firebase-firestore")
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.dagger:hilt-android-testing:$daggerVersion")
+    implementation("androidx.paging:paging-runtime-ktx:$pagingVersion")
+    implementation("androidx.paging:paging-compose:3.3.0-alpha03")
     ksp("com.google.dagger:dagger-compiler:$daggerVersion")
     ksp("com.google.dagger:hilt-compiler:$daggerVersion")
     ksp("androidx.hilt:hilt-compiler:1.1.0")

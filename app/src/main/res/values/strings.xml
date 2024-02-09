@@ -24,6 +24,28 @@
     // Select ingredient labels
     <string name="select_ingredient_back_button_label">Back</string>
 
+    // Ingredient category labels
+    <string name="all_categories_label">All Categories</string>
+    <string name="baked_goods_label">Baked Products</string>
+    <string name="beef_label">Beef</string>
+    <string name="beverages_label">Beverages</string>
+    <string name="cereal_label">Breakfast Cereals</string>
+    <string name="dairy_n_eggs_label">Dairy and Eggs</string>
+    <string name="fats_n_oils_label">Fats and Oils</string>
+    <string name="fish_n_shellfish_label">Fish and Shellfish</string>
+    <string name="fruits_label">Fruits and Fruit Juices</string>
+    <string name="grains_n_pasta_label">Grains and Pasta</string>
+    <string name="lamb_n_game_label">Lamb and Game Meat</string>
+    <string name="legumes_label">Beans and Legumes</string>
+    <string name="nuts_and_seeds_label">Nuts and Seeds</string>
+    <string name="poultry_label">Poultry</string>
+    <string name="pork_label">Pork</string>
+    <string name="sausage_n_lunch_meats_label">Sausages and Lunch Meats</string>
+    <string name="snacks_label">Snacks</string>
+    <string name="soups_n_sauces_label">Soups and Sauces</string>
+    <string name="sweets_label">Sweets and Sweeteners</string>
+    <string name="vegetables_label">Vegetables</string>
+
     // Recipe card resources.
     <string name="ingredient_list_label">Ingredients</string>
     <string name="estimated_recipe_time_label">Est. Time: %s</string>
@@ -43,4 +65,5 @@
     <string name="shopping_cart_description">Image of shopping cart.</string>
     <string name="meal_description">Icon of a meal.</string>
     <string name="plus_description">Icon of a plus sign.</string>
+    <string name="back_arrow_description">Icon of back arrow.</string>
 </resources>

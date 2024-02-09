@@ -5,7 +5,6 @@ import com.google.firebase.firestore.IgnoreExtraProperties
 
 /**
  * Ingredient Model class
- * TODO: Reflect change of nutrition structures in firestore
  */
 @IgnoreExtraProperties
 @Keep
@@ -14,18 +13,32 @@ data class Ingredient(
     val description: String = "",
     val keywords: List<String> = listOf(),
     val category: String = "",
-    val fdcId: String = "",
-    val calories: Float = 0f,
-    val protein: Float = 0f,
-    val fat: Float = 0f,
-    val carbs: Float = 0f,
-    val sodium: Float = 0f,
-    val fiber: Float = 0f,
-    val sugars: Float = 0f,
-    val measures: Float = 0f,
+    val fdcId: Int = 0,
+    val calories: Map<String, Any> = emptyMap(),
+    val protein: Map<String, Any> = emptyMap(),
+    val fat: Map<String, Any> = emptyMap(),
+    val carbs: Map<String, Any> = emptyMap(),
+    val sodium: Map<String, Any> = emptyMap(),
+    val fiber: Map<String, Any> = emptyMap(),
+    val sugars: Map<String, Any> = emptyMap(),
+    val measures: List<Map<String, Any>> = emptyList(),
 ) {
     companion object {
         const val DESCRIPTION_KEY = "description"
+        const val CATEGORY_KEY = "category"
+        const val KEYWORDS_KEY = "keywords"
+        const val UNIT_KEY = "unit"
+        const val VALUE_KEY = "value"
+        const val MEASURE_G_WEIGHT_KEY = "gWeight"
     }
+
+    val fancyDescription: String
+        /* TODO: Update firestore ingredient collection descriptions
+            to have capitalized first letter. */
+        get() {
+            val firstLetter = description[0]
+            val descLength = description.length
+            return firstLetter.uppercase() + description.slice(1..<descLength)
+        }
 }
 

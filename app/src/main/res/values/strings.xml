@@ -21,6 +21,7 @@
     <string name="choose_icon_label">Choose Icon</string>
     <string name="recipe_description_label">Description</string>
     <string name="ingredients_label">Ingredients:</string>
+
     // Select ingredient labels
     <string name="select_ingredient_back_button_label">Back</string>
 
@@ -43,6 +44,7 @@
     <string name="sausage_n_lunch_meats_label">Sausages and Lunch Meats</string>
     <string name="snacks_label">Snacks</string>
     <string name="soups_n_sauces_label">Soups and Sauces</string>
+    <string name="spices_n_herbs_label">Spices and Herbs</string>
     <string name="sweets_label">Sweets and Sweeteners</string>
     <string name="vegetables_label">Vegetables</string>
 

@@ -19,9 +19,11 @@ import com.android.pocketalchemy.model.IngredientCategory.POULTRY
 import com.android.pocketalchemy.model.IngredientCategory.SAUSAGES_N_LUNCH_MEATS
 import com.android.pocketalchemy.model.IngredientCategory.SNACKS
 import com.android.pocketalchemy.model.IngredientCategory.SOUPS_N_SAUCES
+import com.android.pocketalchemy.model.IngredientCategory.SPICES_N_HERBS
 import com.android.pocketalchemy.model.IngredientCategory.SWEETS
 import com.android.pocketalchemy.model.IngredientCategory.VEGETABLES
 
+const val ALL_CATEGORIES_NAME = "All"
 private const val BAKED_CATEGORY_NAME = "Baked Products"
 private const val BEEF_CATEGORY_NAME = "Beef Products"
 private const val BEVERAGES_CATEGORY_NAME = "Beverages"
@@ -39,11 +41,12 @@ private const val PORK_CATEGORY_NAME = "Pork Products"
 private const val SAUSAGES_N_LUNCH_MEATS_CATEGORY_NAME = "Sausages and Luncheon Meats"
 private const val SNACKS_CATEGORY_NAME = "Snacks"
 private const val SOUPS_N_SAUCES_CATEGORY_NAME = "Soups, Sauces, and Gravies"
+private const val SPICES_N_HERBS_CATEGORY_NAME = "Spices and Herbs"
 private const val SWEETS_CATEGORY_NAME = "Sweets"
 private const val VEGETABLES_CATEGORY_NAME = "Vegetables and Vegetable Products"
 
-enum class IngredientCategory(val categoryName: String?) {
-    ALL(null),
+enum class IngredientCategory(val categoryName: String) {
+    ALL(ALL_CATEGORIES_NAME),
     BAKED_GOODS(BAKED_CATEGORY_NAME),
     BEEF(BEEF_CATEGORY_NAME),
     BEVERAGES(BEVERAGES_CATEGORY_NAME),
@@ -61,6 +64,7 @@ enum class IngredientCategory(val categoryName: String?) {
     SAUSAGES_N_LUNCH_MEATS(SAUSAGES_N_LUNCH_MEATS_CATEGORY_NAME),
     SNACKS(SNACKS_CATEGORY_NAME),
     SOUPS_N_SAUCES(SOUPS_N_SAUCES_CATEGORY_NAME),
+    SPICES_N_HERBS(SPICES_N_HERBS_CATEGORY_NAME),
     SWEETS(SWEETS_CATEGORY_NAME),
     VEGETABLES(VEGETABLES_CATEGORY_NAME);
 }
@@ -88,6 +92,7 @@ fun IngredientCategory.displayLabelRes(): Int {
         SAUSAGES_N_LUNCH_MEATS -> R.string.sausage_n_lunch_meats_label
         SNACKS -> R.string.snacks_label
         SOUPS_N_SAUCES -> R.string.soups_n_sauces_label
+        SPICES_N_HERBS -> R.string.spices_n_herbs_label
         SWEETS -> R.string.sweets_label
         VEGETABLES -> R.string.vegetables_label
     }

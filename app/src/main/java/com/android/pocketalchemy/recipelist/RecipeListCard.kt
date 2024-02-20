@@ -47,9 +47,7 @@ fun RecipeListCard(
             onNavigateToEditRecipe(recipe.id)
         },
         enabled = true,
-        elevation = CardDefaults.cardElevation(
-            4.dp,
-        )
+        elevation = CardDefaults.cardElevation(4.dp)
     ) {
         Column(
             modifier = Modifier

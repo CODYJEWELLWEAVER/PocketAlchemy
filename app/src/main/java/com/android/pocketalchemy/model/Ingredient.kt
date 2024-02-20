@@ -32,6 +32,11 @@ data class Ingredient(
         const val MEASURE_G_WEIGHT_KEY = "gWeight"
     }
 
+    /**
+     * Will be removed in the future once I have
+     * updated firestore ingredient descriptions
+     * to all begin with capital letter
+     */
     val fancyDescription: String
         /* TODO: Update firestore ingredient collection descriptions
             to have capitalized first letter. */

@@ -22,9 +22,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -47,11 +44,13 @@ private const val TAG = "EditRecipeScreen"
 // TODO: Use WindowSizeClass to calculate max description height
 private const val MAX_DESCRIPTION_HEIGHT = 100
 
+// TODO: Investigate loading indicator during screen rotation
+
 /**
  * Screen for creating and editing recipes.
  * @param navController NavController for current NavHost
  * @param editRecipeViewModel EditRecipeViewModel - should be initialized with
- * [EditRecipeViewModel.setRecipe]
+ * [EditRecipeViewModel.initializeState]
  */
 @Composable
 fun EditRecipeScreen(
@@ -74,7 +73,7 @@ fun EditRecipeScreen(
         Column(
             modifier = Modifier.padding(scaffoldPadding)
         ) {
-            if (editRecipeViewModel.isLoading) {
+            if (editRecipeUiState.isLoading) {
                 Surface(
                     color = MaterialTheme.colorScheme.background,
                     contentColor = MaterialTheme.colorScheme.onBackground,
@@ -88,7 +87,7 @@ fun EditRecipeScreen(
                 }
             } else {
                 val recipe = editRecipeUiState.recipe
-                var showSelectIngredientPopUp by remember { mutableStateOf(false) }
+                val showSelectIngredientPopUp = editRecipeUiState.showSelectIngredientPopUp
 
                 TitleField(
                     recipe = recipe,
@@ -110,7 +109,7 @@ fun EditRecipeScreen(
 
                 val ingredients = editRecipeUiState.ingredients
                 IngredientsField(ingredients) {
-                    showSelectIngredientPopUp = true
+                    editRecipeViewModel.setShowSelectIngredientPopUp(true)
                 }
 
                 Row( // Recipe Instructions
@@ -138,14 +137,14 @@ fun EditRecipeScreen(
 
                 if (showSelectIngredientPopUp) {
                     SelectIngredientCategory {
-                        showSelectIngredientPopUp = false
+                        editRecipeViewModel.setShowSelectIngredientPopUp(false)
                     }
                 }
 
                 BackHandler(
                     enabled = showSelectIngredientPopUp
                 ) {
-                    showSelectIngredientPopUp = false
+                    editRecipeViewModel.setShowSelectIngredientPopUp(false)
                 }
             }
         }

@@ -23,9 +23,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -47,12 +44,12 @@ import kotlinx.coroutines.Dispatchers
 /**
  * Popup to allow users to select ingredient to add to
  * recipe.
- * @param onClickBackButton callback for closing pop-up screen
+ * @param selectIngredientViewModel
+ * @param onClickBackButton lambda for closing pop-up screen
  */
 @Composable
 fun SelectIngredientCategory(
-    selectIngredientViewModel: SelectIngredientViewModel
-        = hiltViewModel<SelectIngredientViewModel>(),
+    selectIngredientViewModel: SelectIngredientViewModel = hiltViewModel(),
     onClickBackButton: () -> Unit,
 ) {
     Popup {
@@ -71,38 +68,44 @@ fun SelectIngredientCategory(
                     .fillMaxSize(1f)
                     .padding(scaffoldPadding)
             ) {
-                var isCategorySelected by remember { mutableStateOf(false) }
+                val selectedCategory by selectIngredientViewModel.selectedCategory.collectAsState()
+                val isCategorySelected = selectedCategory != null
 
                 LazyColumn(
                     modifier = Modifier.padding(8.dp),
                 ) {
                     items(IngredientCategory.entries) {
                         IngredientCategoryCard(category = it) { categoryName ->
-                            isCategorySelected = true
-                            selectIngredientViewModel.setQuery(category = categoryName)
+                            selectIngredientViewModel.updateCategory(categoryName)
                         }
                     }
                 }
 
                 if (isCategorySelected) {
                     SelectIngredient(selectIngredientViewModel) {
-                        isCategorySelected = false
+                        selectIngredientViewModel.updateCategory(null)
                     }
                 }
 
                 BackHandler(
                     enabled = isCategorySelected
                 ) {
-                    isCategorySelected = false
+                    selectIngredientViewModel.updateCategory(null)
                 }
             }
         }
     }
 }
 
+/**
+ * Displays list of paged ingredient data for
+ * selection
+ * @param selectIngredientViewModel
+ * @param onClickBackButton lambda for navigating back to category list
+ */
 @Composable
 fun SelectIngredient(
-    selectIngredientViewModel: SelectIngredientViewModel,
+    selectIngredientViewModel: SelectIngredientViewModel = hiltViewModel(),
     onClickBackButton: () -> Unit,
 ) {
     val defaultDispatcher = Dispatchers.IO
@@ -134,11 +137,13 @@ fun SelectIngredient(
                     items(ingredients.itemCount) { index ->
                         val ingredient: Ingredient? = ingredients[index]
                         ingredient?.let {
-                            /* TODO: Create minimal ingredient card for
-                                ingredient selection */
+                            IngredientCard(ingredient = it) {
+                                // TODO: wire up add ingredient to recipe
+                            }
                         }
                     }
 
+                    // Initial loading UI
                     when (ingredients.loadState.refresh) {
                         is LoadState.Error -> {
                             // TODO: Show loading error
@@ -153,13 +158,15 @@ fun SelectIngredient(
                         else -> {}
                     }
 
+                    // Appending paging data UI
                     when (ingredients.loadState.append) {
                         is LoadState.Loading -> {
                             item {
                                 Column(
-                                    modifier = Modifier.fillMaxWidth(1f)
+                                    modifier = Modifier
+                                        .fillMaxWidth(1f)
+                                        .padding(8.dp),
                                 ) {
-                                    Text(text = "Loading Ingredients")
                                     LoadingIndicator()
                                 }
                             }
@@ -175,11 +182,17 @@ fun SelectIngredient(
     }
 }
 
+/**
+ * Displays ingredient category on simple card UI
+ * @param category
+ * @param onClickCategoryCard lambda to update ingredient query with
+ * selected category
+ */
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun IngredientCategoryCard(
     category: IngredientCategory,
-    onClickCategoryCard: (String?) -> Unit,
+    onClickCategoryCard: (String) -> Unit,
 ) {
     Card(
         onClick = { onClickCategoryCard(category.categoryName) },
@@ -205,6 +218,10 @@ fun IngredientCategoryCard(
     }
 }
 
+/**
+ * Simple nav bar that allows for easy back navigation
+ * @param onClickBackButton lambda for back navigation
+ */
 @Composable
 fun SelectIngredientNavBar(
     onClickBackButton: () -> Unit,

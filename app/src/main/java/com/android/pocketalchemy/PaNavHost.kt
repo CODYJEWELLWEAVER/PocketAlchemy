@@ -132,7 +132,7 @@ fun EditRecipeRoute(
     val recipeIdArg = remember { backStackEntry.arguments?.getString("recipeId") }
 
     LaunchedEffect(recipeIdArg) {
-        editRecipeViewModel.setRecipe(recipeIdArg)
+        editRecipeViewModel.initializeState(recipeIdArg)
     }
 
     EditRecipeScreen(

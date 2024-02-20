@@ -1,10 +1,12 @@
 package com.android.pocketalchemy.editrecipe.selectingredient
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
+import com.android.pocketalchemy.model.ALL_CATEGORIES_NAME
 import com.android.pocketalchemy.model.Ingredient
 import com.android.pocketalchemy.paging.IngredientPagingSource
 import com.android.pocketalchemy.paging.PageSizes.INGREDIENT_PAGE_SIZE
@@ -21,6 +23,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+private const val TAG = "SelectIngredientViewModel"
 
 @HiltViewModel
 class SelectIngredientViewModel @Inject constructor(
@@ -42,6 +45,16 @@ class SelectIngredientViewModel @Inject constructor(
     val ingredientPagingState: StateFlow<Flow<PagingData<Ingredient>>>
         get () = _ingredientPagingState.asStateFlow()
 
+    private val _selectedCategory: MutableStateFlow<String?>
+        = MutableStateFlow(null)
+
+    val selectedCategory: StateFlow<String?>
+        get() = _selectedCategory.asStateFlow()
+
+    /**
+     * Updates paging flow with new query
+     * @param query new query for paging data
+     */
     private fun getIngredientsPagingFlow(
         query: Query
     ): Flow<PagingData<Ingredient>> {
@@ -58,23 +71,32 @@ class SelectIngredientViewModel @Inject constructor(
         }.flow
     }
 
-    fun setQuery(
-        category: String? = null,
+    /**
+     * Update query with category and keyword
+     */
+    private fun setQuery(
         keyword: String? = null,
     ) {
+        Log.d(TAG, "Updating query!")
         viewModelScope.launch(
             defaultDispatcher
         ) {
+            val categoryName = selectedCategory.value
             var query = defaultQuery
 
-            if (category != null) {
-                query = query.whereEqualTo(
-                    "category",
-                    category
-                )
+            // set category name
+            when (categoryName) {
+                ALL_CATEGORIES_NAME,
+                null -> {} // no specific category selected
+                else -> {
+                    query = query.whereEqualTo(
+                        "category",
+                        categoryName
+                    )
+                }
             }
 
-            if (keyword != null) {
+            keyword?.let { keyword ->
                 query = query.whereArrayContains(
                     Ingredient.KEYWORDS_KEY,
                     keyword.lowercase()
@@ -85,5 +107,16 @@ class SelectIngredientViewModel @Inject constructor(
                 getIngredientsPagingFlow(query)
             }
         }
+    }
+
+    /**
+     * Updates selected category and sets query
+     * @param categoryName
+     */
+    fun updateCategory(categoryName: String?) {
+        _selectedCategory.update {
+            categoryName
+        }
+        setQuery()
     }
 }

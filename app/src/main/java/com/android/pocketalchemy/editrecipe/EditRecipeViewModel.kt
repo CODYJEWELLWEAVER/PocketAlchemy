@@ -31,9 +31,11 @@ class EditRecipeViewModel @Inject constructor(
 ) : ViewModel() {
     private val defaultDispatcher = Dispatchers.Default
 
-    private var _isLoading = false
-    val isLoading
-        get() = _isLoading
+    private val _showSelectIngredientPopUp = MutableStateFlow(false)
+
+    val showSelectIngredientPopUp: StateFlow<Boolean>
+        get() = _showSelectIngredientPopUp.asStateFlow()
+
     /**
      * Retrieves recipe id from SavedStateHandle
      */
@@ -49,7 +51,11 @@ class EditRecipeViewModel @Inject constructor(
     /** ui state model for EditRecipeScreen */
     private var _editRecipeUiState: MutableStateFlow<EditRecipeUiState>
         = MutableStateFlow(EditRecipeUiState(
-            Recipe(id = recipeId, userId = userId), emptyList())
+                Recipe(id = recipeId, userId = userId),
+                ingredients = emptyList(),
+                showSelectIngredientPopUp = false,
+                isLoading = false,
+            )
         )
 
     /** public accessor for ui state model */
@@ -68,9 +74,9 @@ class EditRecipeViewModel @Inject constructor(
      * Initializes view model with recipe from recipeId.
      * @param recipeId used to retrieve recipe document
      */
-    fun setRecipe(recipeId: String?) {
+    fun initializeState(recipeId: String?) {
         viewModelScope.launch {
-            _isLoading = true
+            setIsLoading(true)
             val recipeDocRef = recipeRepository.getRecipeDocRef(recipeId)
             savedStateHandle[EDIT_RECIPE_ID_KEY] = recipeDocRef.id
 
@@ -81,7 +87,7 @@ class EditRecipeViewModel @Inject constructor(
             val ingredients = recipeIngredientRepository.getRecipeIngredients(recipeId.toString())
 
             updateUiState(recipe, ingredients)
-            _isLoading = false
+            setIsLoading(false)
         }
     }
 
@@ -90,6 +96,7 @@ class EditRecipeViewModel @Inject constructor(
      * edited. Has no effect if both parameters are null.
      * @param recipe new recipe to update UI state with
      * @param ingredients new ingredients to update UI state with
+     * TODO: Refactor into two distinct functions
      */
     fun updateUiState(
         recipe: Recipe? = null,
@@ -116,6 +123,26 @@ class EditRecipeViewModel @Inject constructor(
                     }
                 }
             }
+        }
+    }
+
+    /**
+     * Updates EditRecipeUiState to show ingredient selection pop up.
+     * @param showPopUp true to show select ingredient pop up.
+     */
+    fun setShowSelectIngredientPopUp(showPopUp: Boolean) {
+        _editRecipeUiState.update {
+            it.copy(
+                showSelectIngredientPopUp = showPopUp
+            )
+        }
+    }
+
+    private fun setIsLoading(isLoading: Boolean) {
+        _editRecipeUiState.update {
+            it.copy(
+                isLoading = isLoading
+            )
         }
     }
 

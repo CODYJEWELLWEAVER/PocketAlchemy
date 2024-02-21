@@ -35,7 +35,7 @@ data class Ingredient(
     /**
      * Will be removed in the future once I have
      * updated firestore ingredient descriptions
-     * to all begin with capital letter
+     * to all begin with a capital letter
      */
     val fancyDescription: String
         /* TODO: Update firestore ingredient collection descriptions

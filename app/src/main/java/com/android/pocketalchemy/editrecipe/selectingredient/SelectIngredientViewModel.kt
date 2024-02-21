@@ -90,7 +90,7 @@ class SelectIngredientViewModel @Inject constructor(
                 null -> {} // no specific category selected
                 else -> {
                     query = query.whereEqualTo(
-                        "category",
+                        Ingredient.CATEGORY_KEY,
                         categoryName
                     )
                 }

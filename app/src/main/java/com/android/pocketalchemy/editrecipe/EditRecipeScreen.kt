@@ -44,8 +44,6 @@ private const val TAG = "EditRecipeScreen"
 // TODO: Use WindowSizeClass to calculate max description height
 private const val MAX_DESCRIPTION_HEIGHT = 100
 
-// TODO: Investigate loading indicator during screen rotation
-
 /**
  * Screen for creating and editing recipes.
  * @param navController NavController for current NavHost

@@ -8,7 +8,7 @@ import com.android.pocketalchemy.model.RecipeIngredient
  * @param recipe Current state of recipe model
  * @param ingredients Current state of recipe ingredients
  * @param showSelectIngredientPopUp Controls ingredient selector pop up visibility
- * @param isLoading Controls loading indicator UI
+ * @param isLoading true if fetching recipe data
  */
 data class EditRecipeUiState(
     val recipe: Recipe,

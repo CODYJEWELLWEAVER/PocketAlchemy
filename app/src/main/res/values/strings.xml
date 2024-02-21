@@ -24,6 +24,7 @@
 
     // Select ingredient labels
     <string name="select_ingredient_back_button_label">Back</string>
+    <string name="add_ingredient_label">Add Ingredient</string>
 
     // Ingredient category labels
     <string name="all_categories_label">All Categories</string>

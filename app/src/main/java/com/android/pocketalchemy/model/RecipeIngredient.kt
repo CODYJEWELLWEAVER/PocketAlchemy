@@ -11,6 +11,7 @@ import com.google.firebase.firestore.IgnoreExtraProperties
  * @param ingredientId
  * @param description
  * @param gramWeight
+ * TODO: Add unit and unit quantity
  */
 @Keep
 @IgnoreExtraProperties

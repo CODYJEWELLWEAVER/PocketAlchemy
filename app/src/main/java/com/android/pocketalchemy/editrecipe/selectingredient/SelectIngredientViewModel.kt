@@ -6,8 +6,9 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.Pager
 import androidx.paging.PagingConfig
 import androidx.paging.PagingData
-import com.android.pocketalchemy.model.ALL_CATEGORIES_NAME
+import com.android.pocketalchemy.firebase.FirestoreIngredientCategory
 import com.android.pocketalchemy.model.Ingredient
+import com.android.pocketalchemy.model.IngredientCategory
 import com.android.pocketalchemy.paging.IngredientPagingSource
 import com.android.pocketalchemy.paging.PageSizes.INGREDIENT_PAGE_SIZE
 import com.android.pocketalchemy.paging.PageSizes.INGREDIENT_PREFETCH_DISTANCE
@@ -30,6 +31,7 @@ class SelectIngredientViewModel @Inject constructor(
     private val ingredientRepository: IngredientRepository,
 ): ViewModel() {
     private val defaultDispatcher = Dispatchers.Default
+    private var _selectedCategory: IngredientCategory = IngredientCategory.ALL
 
     private val defaultQuery
         get() = ingredientRepository.getIngredientCollectionRef()
@@ -44,12 +46,6 @@ class SelectIngredientViewModel @Inject constructor(
 
     val ingredientPagingState: StateFlow<Flow<PagingData<Ingredient>>>
         get () = _ingredientPagingState.asStateFlow()
-
-    private val _selectedCategory: MutableStateFlow<String?>
-        = MutableStateFlow(null)
-
-    val selectedCategory: StateFlow<String?>
-        get() = _selectedCategory.asStateFlow()
 
     /**
      * Updates paging flow with new query
@@ -81,19 +77,16 @@ class SelectIngredientViewModel @Inject constructor(
         viewModelScope.launch(
             defaultDispatcher
         ) {
-            val categoryName = selectedCategory.value
+            val category = _selectedCategory
             var query = defaultQuery
+            val firestoreCategory = FirestoreIngredientCategory.getCategoryName(category)
 
             // set category name
-            when (categoryName) {
-                ALL_CATEGORIES_NAME,
-                null -> {} // no specific category selected
-                else -> {
-                    query = query.whereEqualTo(
-                        Ingredient.CATEGORY_KEY,
-                        categoryName
-                    )
-                }
+            if (firestoreCategory != null) {
+                query = query.whereEqualTo(
+                    Ingredient.CATEGORY_KEY,
+                    firestoreCategory
+                )
             }
 
             keyword?.let { keyword ->
@@ -111,12 +104,10 @@ class SelectIngredientViewModel @Inject constructor(
 
     /**
      * Updates selected category and sets query
-     * @param categoryName
+     * @param category
      */
-    fun updateCategory(categoryName: String?) {
-        _selectedCategory.update {
-            categoryName
-        }
+    fun updateCategory(category: IngredientCategory) {
+        _selectedCategory = category
         setQuery()
     }
 }

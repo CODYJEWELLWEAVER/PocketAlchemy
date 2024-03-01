@@ -1,6 +1,7 @@
 package com.android.pocketalchemy.recipelist
 
 import com.android.pocketalchemy.model.Recipe
+import kotlinx.coroutines.flow.Flow
 
 /**
  * Wrapper for recipe list UI state
@@ -8,6 +9,6 @@ import com.android.pocketalchemy.model.Recipe
  * @param isLoading true if fetching recipe list data
  */
 data class RecipeListUiState(
-    val recipeList: List<Recipe>,
+    val recipeList: Flow<List<Recipe>>,
     val isLoading: Boolean
 )

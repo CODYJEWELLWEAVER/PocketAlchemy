@@ -2,12 +2,13 @@ package com.android.pocketalchemy.recipelist
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.android.pocketalchemy.model.Recipe
 import com.android.pocketalchemy.repository.RecipeRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.emptyFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -20,29 +21,35 @@ class RecipeListViewModel @Inject constructor(
     private val recipeRepository: RecipeRepository,
 ) : ViewModel() {
 
-    private var _isLoading = false
+    // UI State
+    private val _recipeListUiState = MutableStateFlow(
+        RecipeListUiState(
+            isLoading = false,
+            recipeList = emptyFlow()
+        )
+    )
 
-    val isLoading
-        get() = _isLoading
-
-    private var _recipeList: StateFlow<List<Recipe>>
-        = MutableStateFlow(emptyList())
-
-    val recipeList: StateFlow<List<Recipe>>
-        get() {
-            return _recipeList
-        }
+    // Public accessor for UI state
+    val recipeListUiState: StateFlow<RecipeListUiState>
+        get() = _recipeListUiState.asStateFlow()
 
     init {
-        _isLoading = true
+        setIsLoading(true)
         getRecipeList()
+        setIsLoading(false)
+    }
+
+    private fun setIsLoading(value: Boolean) {
+        _recipeListUiState.update {
+            it.copy(isLoading = value)
+        }
     }
 
     private fun getRecipeList() {
         viewModelScope.launch {
-            _recipeList = recipeRepository.getUserRecipeList()
-                .stateIn(this)
-            _isLoading = false
+            _recipeListUiState.update {
+                it.copy(recipeList = recipeRepository.getUserRecipeList())
+            }
         }
     }
 }

@@ -14,8 +14,10 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -25,7 +27,6 @@ import androidx.compose.ui.window.Popup
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.android.pocketalchemy.R
 import com.android.pocketalchemy.model.IngredientCategory
-import com.android.pocketalchemy.model.displayLabelRes
 import com.android.pocketalchemy.ui.common.PaTopAppBar
 
 /**
@@ -55,28 +56,29 @@ fun SelectIngredientCategory(
                     .fillMaxSize(1f)
                     .padding(scaffoldPadding)
             ) {
-                val selectedCategory by selectIngredientViewModel.selectedCategory.collectAsState()
+                var showSelectIngredient by remember { mutableStateOf(false) }
 
                 LazyColumn(
                     modifier = Modifier.padding(8.dp),
                 ) {
                     items(IngredientCategory.entries) {
-                        IngredientCategoryCard(category = it) { categoryName ->
-                            selectIngredientViewModel.updateCategory(categoryName)
+                        IngredientCategoryCard(category = it) { category ->
+                            selectIngredientViewModel.updateCategory(category)
+                            showSelectIngredient = true
                         }
                     }
                 }
 
-                if (selectedCategory != null) {
+                if (showSelectIngredient) {
                     SelectIngredient(selectIngredientViewModel) {
-                        selectIngredientViewModel.updateCategory(null)
+                        showSelectIngredient = false
                     }
                 }
 
                 BackHandler(
-                    enabled = (selectedCategory != null)
+                    enabled = (showSelectIngredient)
                 ) {
-                    selectIngredientViewModel.updateCategory(null)
+                    showSelectIngredient = false
                 }
             }
         }
@@ -93,10 +95,10 @@ fun SelectIngredientCategory(
 @Composable
 fun IngredientCategoryCard(
     category: IngredientCategory,
-    onClickCategoryCard: (String) -> Unit,
+    onClickCategoryCard: (IngredientCategory) -> Unit,
 ) {
     Card(
-        onClick = { onClickCategoryCard(category.categoryName) },
+        onClick = { onClickCategoryCard(category) },
         elevation = CardDefaults.cardElevation(4.dp),
         modifier = Modifier
             .fillMaxWidth(1f)
@@ -109,7 +111,7 @@ fun IngredientCategoryCard(
                 .padding(8.dp)
         ) {
             Text(
-                text = stringResource(id = category.displayLabelRes()),
+                text = stringResource(id = category.labelResId),
                 modifier = Modifier
                     .padding(8.dp)
                     .fillMaxWidth(1f),

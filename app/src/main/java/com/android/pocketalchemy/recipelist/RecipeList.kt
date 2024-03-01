@@ -25,10 +25,11 @@ fun RecipeList(
     onNavigateToEditRecipe: (String?) -> Unit,
     recipeListViewModel: RecipeListViewModel = hiltViewModel<RecipeListViewModel>()
 ) {
-    val recipeList: List<Recipe>
-        by recipeListViewModel.recipeList.collectAsState()
+    val recipeListUiState by recipeListViewModel.recipeListUiState.collectAsState()
+    val isLoading = recipeListUiState.isLoading
+    val recipeList by recipeListUiState.recipeList.collectAsState(initial = emptyList())
 
-    if (!recipeListViewModel.isLoading) {
+    if (!isLoading) {
         RecipeListColumn(recipeList, onNavigateToEditRecipe)
     } else {
         LoadingIndicator()

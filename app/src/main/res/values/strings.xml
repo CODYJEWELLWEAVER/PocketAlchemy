@@ -25,6 +25,7 @@
     // Select ingredient labels
     <string name="select_ingredient_back_button_label">Back</string>
     <string name="add_ingredient_label">Add Ingredient</string>
+    <string name="quantity_field_label">Quantity</string>
 
     // Ingredient category labels
     <string name="all_categories_label">All Categories</string>
@@ -61,6 +62,11 @@
     <string name="recipe_list_nav_label">Recipes</string>
     <string name="shopping_lists_nav_label">Shopping Lists</string>
     <string name="ingredients_nav_label">Ingredients</string>
+
+    // MeasureUnit labels.
+    <string name="kilogram_unit_label">kilograms</string>
+    <string name="gram_unit_label">grams</string>
+    <string name="milligram_unit_label">milligrams</string>
 
     // Content descriptions for icons.
     <string name="create_description">Image of pencil.</string>

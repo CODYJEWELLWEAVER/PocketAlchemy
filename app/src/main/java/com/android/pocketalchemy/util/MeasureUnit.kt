@@ -1,4 +1,4 @@
-package com.android.pocketalchemy.model
+package com.android.pocketalchemy.util
 
 import com.android.pocketalchemy.R
 

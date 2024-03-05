@@ -26,6 +26,7 @@
     <string name="select_ingredient_back_button_label">Back</string>
     <string name="add_ingredient_label">Add Ingredient</string>
     <string name="quantity_field_label">Quantity</string>
+    <string name="enter_to_see_nutrition_label">Enter a quantity to see nutritional information.</string>
 
     // Ingredient category labels
     <string name="all_categories_label">All Categories</string>

@@ -118,6 +118,12 @@ fun SelectIngredientQuantityDialog(
     }
 }
 
+/**
+ * Displays nutritional information
+ * for a given ingredient and quantity.
+ * @param quantity
+ * @param ingredient
+ */
 @Composable
 private fun NutritionInfo(
     quantity: String,
@@ -142,6 +148,13 @@ private fun NutritionInfo(
     }
 }
 
+
+/**
+ * Button with dropdown menu for selecting a unit of measure
+ * for an ingredient which is represented by [MeasureUnit].
+ * @param currentUnit unit currently selected
+ * @param onSelectUnit updates current unit
+ */
 @Composable
 private fun UnitSelectionButton(
     currentUnit: MeasureUnit,
@@ -219,6 +232,8 @@ private fun QuantityField(
     )
 }
 
+
+/** SelectQuantityDialog Preview */
 @Preview
 @Composable
 private fun PreviewDialog(

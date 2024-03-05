@@ -8,6 +8,7 @@ import com.android.pocketalchemy.model.RecipeIngredient
 import com.android.pocketalchemy.repository.AuthRepository
 import com.android.pocketalchemy.repository.RecipeIngredientRepository
 import com.android.pocketalchemy.repository.RecipeRepository
+import com.android.pocketalchemy.util.plus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -91,37 +92,18 @@ class EditRecipeViewModel @Inject constructor(
         }
     }
 
-    /**
-     * Updates the state of the recipe and its ingredients being
-     * edited. Has no effect if both parameters are null.
-     * @param recipe new recipe to update UI state with
-     * @param ingredients new ingredients to update UI state with
-     * TODO: Refactor into two distinct functions
-     */
     fun updateUiState(
-        recipe: Recipe? = null,
-        ingredients: List<RecipeIngredient>? = null,
+        newRecipe: Recipe? = null,
+        newIngredients: List<RecipeIngredient>? = null,
     ) {
-        viewModelScope.launch {
-            if (recipe != null && ingredients != null) {
-                _editRecipeUiState.update {
-                    it.copy(
-                        recipe = recipe,
-                        ingredients = ingredients
-                    )
-                }
-            } else {
-                recipe?.let { newRecipe ->
-                    _editRecipeUiState.update {
-                        it.copy(recipe = newRecipe)
-                    }
-                }
+        viewModelScope.launch(
+            defaultDispatcher
+        ) {
+            _editRecipeUiState.update {
+                val recipe = newRecipe ?: it.recipe
+                val ingredients = newIngredients ?: it.ingredients
 
-                ingredients?.let { newIngredients ->
-                    _editRecipeUiState.update {
-                        it.copy(ingredients = newIngredients)
-                    }
-                }
+                it.copy(recipe = recipe, ingredients = ingredients)
             }
         }
     }
@@ -174,7 +156,7 @@ class EditRecipeViewModel @Inject constructor(
                 recipeIngredients.mapIndexed { i: Int, ingredient: RecipeIngredient ->
                     if (i == ingredientIndex) {
                         ingredient.copy(
-                            gramWeight = ingredient.gramWeight + recipeIngredient.gramWeight
+                            value = ingredient.value + recipeIngredient.value
                         )
                     } else {
                         ingredient
@@ -182,7 +164,7 @@ class EditRecipeViewModel @Inject constructor(
                 }
             }
             updateUiState(
-                ingredients = newRecipeIngredients
+                newIngredients = newRecipeIngredients
             )
         }
     }
@@ -196,7 +178,7 @@ class EditRecipeViewModel @Inject constructor(
         viewModelScope.launch {
             val recipeIngredients = _editRecipeUiState.value.ingredients
             updateUiState(
-                ingredients = recipeIngredients.filter {
+                newIngredients = recipeIngredients.filter {
                     it.ingredientId != recipeIngredient.id
                 }
             )

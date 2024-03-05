@@ -1,5 +1,7 @@
 package com.android.pocketalchemy.model
 
+import com.android.pocketalchemy.util.MeasureUnit
+import com.android.pocketalchemy.util.MeasureUnitDefaults
 import com.google.errorprone.annotations.Keep
 import com.google.firebase.firestore.DocumentId
 import com.google.firebase.firestore.IgnoreExtraProperties
@@ -20,8 +22,9 @@ data class RecipeIngredient(
     val recipeId: String = "",
     val ingredientId: String = "",
     val description: String = "",
-    val gramWeight: Float = 0f
-) {
+    val unit: MeasureUnit = MeasureUnitDefaults.defaultUnit,
+    val value: Number = 0.0,
+    ) {
     /**
      * Shortened recipe description for recipe view
      */

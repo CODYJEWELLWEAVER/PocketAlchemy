@@ -91,7 +91,7 @@ fun EditRecipeScreen(
                     recipe = recipe,
                     onUpdate = {
                         editRecipeViewModel.updateUiState(
-                            recipe = recipe.copy(title = it)
+                            newRecipe = recipe.copy(title = it)
                         )
                     }
                 )
@@ -100,7 +100,7 @@ fun EditRecipeScreen(
                     recipe = recipe,
                     onUpdate = {
                         editRecipeViewModel.updateUiState(
-                            recipe = recipe.copy(description = it)
+                            newRecipe = recipe.copy(description = it)
                         )
                     }
                 )
